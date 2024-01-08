@@ -1,0 +1,19 @@
+{
+  "name": "dsignxwrk-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brenxm/dsignxwrk-frontend.git"
+  },
+  "author": "Bryan Mina",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/brenxm/dsignxwrk-frontend/issues"
+  },
+  "homepage": "https://github.com/brenxm/dsignxwrk-frontend#readme"
+}
