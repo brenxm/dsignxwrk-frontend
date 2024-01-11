@@ -2,18 +2,31 @@
   "name": "dsignxwrk-frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": "true",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brenxm/dsignxwrk-frontend.git"
   },
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "author": "Bryan Mina",
   "license": "",
   "bugs": {
     "url": "https://github.com/brenxm/dsignxwrk-frontend/issues"
   },
-  "homepage": "https://github.com/brenxm/dsignxwrk-frontend#readme"
+  "homepage": "https://github.com/brenxm/dsignxwrk-frontend#readme",
+  "devDependencies": {
+    "@babel/preset-react": "^7.23.3",
+    "css-loader": "^6.9.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
