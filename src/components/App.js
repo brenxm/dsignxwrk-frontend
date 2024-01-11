@@ -1,4 +1,21 @@
+import React from "react"
 
-function App(){
-    return  <h1>Hello World</h1>
+export default function App(){
+    return  <>
+        <TopNavMenu />
+            </>
+}
+
+function TopNavMenu(){
+    return <div className="top-nav-menu">
+        {/* Top left logo button */}
+        <button>
+            logo
+        </button>
+
+        {/* Top right shopping cart button */}
+        <button>
+            sc button
+        </button>
+    </div>
 }

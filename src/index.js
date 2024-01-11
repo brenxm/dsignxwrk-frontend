@@ -1,14 +1,10 @@
 import "./style.css"
+import React from "react"
+import { createRoot } from 'react-dom/client'
+import App from './components/App'
 
+document.body.innerHTML = '<div id="app"></div>'
 
-function component() {
-    const element = document.createElement('div');
+const root = createRoot(document.getElementById('app'))
 
-    element.innerHTML = "Hello, Webpack!"
-
-    element.classList.add('hello');
-
-    return element
-}
-
-document.body.appendChild(component())
+root.render(<App />)
