@@ -1,21 +1,22 @@
-import React from "react"
+import React from 'react';
 
-export default function App(){
-    return  <>
-        <TopNavMenu />
-            </>
+export default function App() {
+	return (
+		<>
+			<TopNavMenu />
+		</>
+	);
 }
 
-function TopNavMenu(){
-    return <div className="top-nav-menu">
-        {/* Top left logo button */}
-        <button>
-            logo
-        </button>
+function TopNavMenu() {
+	return (
+		<div className="top-nav-menu">
+			<NavMenuButton label={'logo'} />
+			<NavMenuButton label={'sc'} />
+		</div>
+	);
+}
 
-        {/* Top right shopping cart button */}
-        <button>
-            sc button
-        </button>
-    </div>
+function NavMenuButton({ label }) {
+	return <button>{label}</button>;
 }
