@@ -1,9 +1,14 @@
 import React from 'react';
+import HomeSection from './HomeSection';
 
 export default function App() {
 	return (
 		<>
+			{/* Nav */}
 			<TopNavMenu />
+
+			{/* BODY */}
+			<HomeSection />
 		</>
 	);
 }
