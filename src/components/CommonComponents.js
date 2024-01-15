@@ -34,7 +34,7 @@ export function ImageSlider({ images, iconSelection }) {
 
 export function ScrollDownButton({ label, scrollCord }) {
 	function handleClick() {
-		window.scrollTo(0,scrollCord);
+		window.scrollTo(0, scrollCord);
 	}
 	return (
 		<button className="scrolldown-but_cont" onClick={handleClick}>
@@ -43,6 +43,6 @@ export function ScrollDownButton({ label, scrollCord }) {
 		</button>
 	);
 }
-export function Spacer() {
-	return <div className="spacer"></div>;
+export function Spacer({size}) {
+	return <div className="spacer" style={{flexGrow: size}}></div>;
 }

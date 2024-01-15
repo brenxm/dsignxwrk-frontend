@@ -5,6 +5,8 @@
 }
 
 $top-nav-height: 50px;
+$home-section-height: 600px;
+$scroll-section-height: 600px;
 
 * {
    margin: 0;
@@ -20,8 +22,12 @@ body {
 }
 
 #app {
-    height: 3000px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
+
 
 /* Section Header */
 .section-header_cont {
@@ -52,13 +58,13 @@ body {
    }
 
    h2 {
-      color: rgb(186, 186, 186);
+      color: rgb(214, 214, 214);
       font-family: 'DubaiRegular';
       letter-spacing: 1px;
    }
 
    p {
-      color: rgb(132, 132, 132);
+      color: rgb(168, 168, 168);
       font-family: 'DubaiRegular';
       word-spacing: 2px;
       line-height: 22px;
@@ -68,29 +74,36 @@ body {
 
 /* Top nav menu */
 .top-nav-menu {
-    z-index: 1;
+   z-index: 3;
+   position: sticky;
    display: flex;
-   position:sticky;
-   top: 0;
    flex-direction: row;
    justify-content: space-between;
-   align-items: center;
    background-color: rgb(32, 32, 32);
-   padding: 0 10px;
-   width: 100%;
-   height: $top-nav-height;
+   padding: 10px;
+   transition: all 0.5s ease;
+
 
    #top-nav_but {
       width: 50px;
       height: 50px;
       background-color: rgba(0, 0, 0, 0);
       border: none;
+      rotate: 225deg;
+   }
+
+   #title-text {
+      color: rgb(205, 205, 205);
+      font-size: 25px;
+      font-family: 'DubaiRegular';
+      text-align: center;
    }
 
    #top-nav_but_img {
       width: 45%;
    }
 }
+
 
 /* Image Slider */
 .image-slider_cont {
@@ -140,18 +153,77 @@ body {
    flex-direction: column;
    align-items: center;
    justify-content: space-between;
-   height: 600px;
+   overflow-y: hidden;
+   height: calc(100vh - $top-nav-height);
+   padding: 10px 10px;
+   width: 100%;
+   position: relative;
+   top: -70px;
+
+   #home-section_img {
+      width: 700px;
+      left: 100px;
+      z-index: 0;
+   }
+
+   #title-icon_cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 0 40px;
+   }
+
+   #title-icon {
+      width: 20px;
+      aspect-ratio: 1;
+      rotate: 225deg;
+      opacity: 0.8;
+   }
+
+   #title-text_cont {
+      background-color: rgb(32,
+         32,
+         32);
+      border-radius: 15px;
+      padding: 10px;
+
+      p {
+         color: rgb(186, 186, 186);
+         font-family: 'DubaiRegular';
+         text-align: center;
+         line-height: 18px;
+      }
+
+   }
+
+  
 }
 
 /* Scroll Anim Section */
 .scroll-anim-section {
-   background-color: rgb(0, 0, 0);
-   height: 100px;
-   width: 300px;
-   z-index: 100;
+   background-color: rgb(220, 29, 29);
+   height: 2000px;
+   width: 100vw;
+   z-index: 2;
+}
+
+/* Module Section */
+.module-section {
+   background-color: blue;
+   width: 100vw;
+   height: 750px;
+}
+
+/* Software Section */
+.software-section {
+   background-color: green;
+   width: 100vw;
+   height: 750px;
 }
 
 /* Spacer */
 .spacer {
-   flex-grow: 1;
+   flex-grow: 0.3;
 }

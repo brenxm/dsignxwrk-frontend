@@ -1,49 +1,56 @@
 import React from 'react';
-import { useState } from 'react';
 import HomeSection from './HomeSection';
 import ScrollAnimPage from './ScrollingSection';
+import ModuleSection from './ModulesSection';
+import SoftwareSection from './SoftwareSection';
 import mainLogo from '../assets/nav_buttons/main_logo.png';
-import shoppingIcon from '../assets/nav_buttons/shopping_bag.png';
-
+import { CircleButton } from './StylizedButton';
+import { useEffect, useState } from 'react';
+import { Spacer } from './CommonComponents';
 
 export default function App() {
-	const [scrollAnimDisplay, setScrollAnimDsiplay] = useState('none');
-	const [scrollAnimOpacity, setScrollAnimOpacity] = useState(0);
 
-	window.addEventListener('scroll', () => {
-		const yCoord = window.scrollY;
-		console.log(yCoord);
-		switch(true){
-		case (yCoord > 200 && yCoord < 650):
-			setScrollAnimDsiplay('block');
-			setScrollAnimOpacity((yCoord - 200) / (650 - 200));
-			console.log((yCoord - 200) / (650 - 200));
-		}
-	});
+	const [navMenuStyle, setNavMenuStyle] = useState({top: '30px', width: '80%', borderRadius:' 20px'});
+	const [titleOpacity, setTitleOpacity] = useState('1');
+
+	useEffect( ()=> {
+		window.addEventListener('scroll', ()=>{
+			if(window.scrollY <= 100){
+				setNavMenuStyle({ top: '30px', width: '80%' , borderRadius: '20px'});
+				setTitleOpacity('1');
+			} else {
+				setNavMenuStyle({ top: '0', width: '100%' ,borderRadius: '0'});
+				setTitleOpacity('0');
+			}
+
+			console.log(window.scrollY);
+		});		
+	}, []);
+	
 	return (
 		<>
-			<div>
-				{/* Nav */}
-				<TopNavMenu />
-
-				{/* BODY */}
-				<HomeSection />
-			</div>
-
-			{/* SCROLL ANIM */}
-			<ScrollAnimPage display={scrollAnimDisplay} opacity={scrollAnimOpacity}/>
+			<TopNavMenu style={navMenuStyle} titleOpacity={titleOpacity}/>
+			<HomeSection />
+			<ScrollAnimPage />
+			<ModuleSection />
+			<SoftwareSection />
 		</>
 	);
 }
 
-function TopNavMenu() {
+
+
+function TopNavMenu({style, titleOpacity}) {
 	return (
-		<div className="top-nav-menu">
-			<NavMenuButton icon={mainLogo} />
-			<NavMenuButton icon={shoppingIcon} />
+		<div className="top-nav-menu" style={style}>
+			<CircleButton icon={<NavMenuButton icon={mainLogo} />}/>
+			<h2 style={{ opacity: titleOpacity, transition: 'all 0.2s ease' }}id="title-text">Dsign x Wrk</h2>
+			<Spacer size={'0.3'} />
 		</div>
 	);
 }
+
+
 
 function NavMenuButton({ icon }) {
 	return (
