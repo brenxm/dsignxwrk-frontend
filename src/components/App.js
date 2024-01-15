@@ -9,27 +9,9 @@ import { useEffect, useState } from 'react';
 import { Spacer } from './CommonComponents';
 
 export default function App() {
-
-	const [navMenuStyle, setNavMenuStyle] = useState({top: '30px', width: '80%', borderRadius:' 20px'});
-	const [titleOpacity, setTitleOpacity] = useState('1');
-
-	useEffect( ()=> {
-		window.addEventListener('scroll', ()=>{
-			if(window.scrollY <= 100){
-				setNavMenuStyle({ top: '30px', width: '80%' , borderRadius: '20px'});
-				setTitleOpacity('1');
-			} else {
-				setNavMenuStyle({ top: '0', width: '100%' ,borderRadius: '0'});
-				setTitleOpacity('0');
-			}
-
-			console.log(window.scrollY);
-		});		
-	}, []);
-	
 	return (
 		<>
-			<TopNavMenu style={navMenuStyle} titleOpacity={titleOpacity}/>
+			<TopNavMenu />
 			<HomeSection />
 			<ScrollAnimPage />
 			<ModuleSection />
@@ -38,19 +20,93 @@ export default function App() {
 	);
 }
 
+function TopNavMenu() {
+	const navDockStyle ={
+		top: '0',
+		width: '100%',
+		borderRadius: '0',
+	};
+
+	const navUndockStyle = {
+		top: '30px',
+		width: '80%',
+		borderRadius: '20px',
+	};
+
+	const inUndockArea = () => (window.scrollY <= 100);
+	let isMenuTrayEnable = false;
+
+	const [navMenuStyle, setNavMenuStyle] = useState({...navUndockStyle, height: '70px'});
+	const [titleOpacity, setTitleOpacity] = useState('1');
 
 
-function TopNavMenu({style, titleOpacity}) {
+	useEffect(() => {
+		window.addEventListener('scroll', () => {
+			console.log('scrolled');
+			if (isMenuTrayEnable) {
+				console.log('should called');
+				return;
+			}
+			
+			let navStyle = { ...navMenuStyle };
+
+			// UNDOCK nav menu
+			if (inUndockArea()) {
+				setNavMenuStyle({...navStyle, ...navUndockStyle});
+				setTitleOpacity('1');
+			} else {
+				setNavMenuStyle({...navStyle, ...navDockStyle});
+				setTitleOpacity('0');
+			}
+
+		});
+	}, []);
+
+	function toggleMenuTray() {
+		const navMenuCurrHeight = document
+			.querySelector('.top-nav-menu')
+			.getBoundingClientRect().height;
+		let navStyle = {...navMenuStyle};
+		
+		// Toggle ON
+		if (navMenuCurrHeight == 70) {
+			navStyle = {...navStyle, height: '100vh', top: '0', width: '100%', borderRadius: '0'};
+			isMenuTrayEnable = true;
+			
+		} else { // TOGGLE OFF
+			isMenuTrayEnable = false;
+
+			if (inUndockArea()){
+				navStyle = {...navStyle, ...navUndockStyle, height: '70px'};
+				console.log('calling');
+				
+			} else {
+				navStyle = {...navStyle, ...navDockStyle, height: '70px' };
+			}
+			
+		}
+		
+		setNavMenuStyle(navStyle);
+		
+		console.log(isMenuTrayEnable);
+	}
+
 	return (
-		<div className="top-nav-menu" style={style}>
-			<CircleButton icon={<NavMenuButton icon={mainLogo} />}/>
-			<h2 style={{ opacity: titleOpacity, transition: 'all 0.2s ease' }}id="title-text">Dsign x Wrk</h2>
+		<div className="top-nav-menu" style={navMenuStyle}>
+			<CircleButton
+				icon={<NavMenuButton icon={mainLogo} />}
+				clickFn={toggleMenuTray}
+			/>
+			<h2
+				style={{ opacity: titleOpacity, transition: 'all 0.2s ease' }}
+				id="title-text"
+			>
+            Dsign x Wrk
+			</h2>
 			<Spacer size={'0.3'} />
 		</div>
 	);
 }
-
-
 
 function NavMenuButton({ icon }) {
 	return (

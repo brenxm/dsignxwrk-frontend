@@ -2,7 +2,6 @@ import React from 'react';
 import img from '../assets/homeboard3.png';
 
 export default function HomeSection() {
-	
 	return (
 		<div
 			className="home-section_cont"
@@ -12,8 +11,7 @@ export default function HomeSection() {
 				backgroundPositionX: '-200px',
 				backgroundPositionY: '-100px',
 			}}
-		>
-		</div>
+		></div>
 	);
 }
 

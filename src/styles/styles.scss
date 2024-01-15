@@ -28,7 +28,6 @@ body {
    align-items: center;
 }
 
-
 /* Section Header */
 .section-header_cont {
    background-color: black;
@@ -83,7 +82,6 @@ body {
    padding: 10px;
    transition: all 0.5s ease;
 
-
    #top-nav_but {
       width: 50px;
       height: 50px;
@@ -103,7 +101,6 @@ body {
       width: 45%;
    }
 }
-
 
 /* Image Slider */
 .image-slider_cont {
@@ -183,9 +180,7 @@ body {
    }
 
    #title-text_cont {
-      background-color: rgb(32,
-         32,
-         32);
+      background-color: rgb(32, 32, 32);
       border-radius: 15px;
       padding: 10px;
 
@@ -195,10 +190,7 @@ body {
          text-align: center;
          line-height: 18px;
       }
-
    }
-
-  
 }
 
 /* Scroll Anim Section */

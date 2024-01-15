@@ -43,6 +43,6 @@ export function ScrollDownButton({ label, scrollCord }) {
 		</button>
 	);
 }
-export function Spacer({size}) {
-	return <div className="spacer" style={{flexGrow: size}}></div>;
+export function Spacer({ size }) {
+	return <div className="spacer" style={{ flexGrow: size }}></div>;
 }
