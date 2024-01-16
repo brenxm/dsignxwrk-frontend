@@ -61,12 +61,17 @@ function TopNavMenu() {
 	};
 
 	const inUndockArea = () => window.scrollY <= 100;
+
 	let expandedNavMenu = new SingletonBool();
+
 	const [navMenuStyle, setNavMenuStyle] = useState({
 		...navUndockStyle,
 		height: '70px',
 	});
+
 	const [titleOpacity, setTitleOpacity] = useState('1');
+
+	const [navDockContDisplay, setNavDockContDisplay] = useState('none');
 
 	const handleScroll = (e) => {
 		console.log(e.target);
@@ -113,8 +118,12 @@ function TopNavMenu() {
 			app.removeEventListener('scroll', handleScroll);
 			setNavMenuStyle(expandedNavMenuStyle);
 			expandedNavMenu.setBool(true);
+			setNavDockContDisplay('Block');
+			setTitleOpacity(0);
 		} else {
 			// TOGGLE OFF
+			setTitleOpacity(1);
+			setNavDockContDisplay('none');
 			expandedNavMenu.setBool(false);
 			app.addEventListener('scroll', handleScroll);
 			if (inUndockArea()) {
@@ -125,9 +134,28 @@ function TopNavMenu() {
 		}
 	}
 
+	// Navigation OPTIONS
+	const navOptions = [
+		{
+			title: 'Macro Boards',
+			img: 'hehe',
+			text: 'Some message goes here but whaterver dude'
+		},
+		{
+			title: 'Modules',
+			img: 'buts',
+			text: 'Hekhekhekeh wataevah'
+		},
+		{
+			title: 'Softwares',
+			img: 'uks',
+			text: 'This is the software side of this thing hehe it is what it is'
+		}
+	];
+
 	return (
 		<div className="top-nav-menu" style={navMenuStyle}>
-			<div id='nav-dock-cont'> 
+			<div id='nav-dock-cont' > 
 				<CircleButton
 					icon={<NavMenuButton icon={mainLogo} />}
 					clickFn={toggleMenuTray}
@@ -140,8 +168,12 @@ function TopNavMenu() {
 				</h2>
 				<Spacer size={'0.3'} />
 			</div>
-			<div id='nav-menu-cont'>
-				<MenuItemOption />
+			<div id='nav-menu-cont' style={{
+				display: navDockContDisplay
+			}}>
+				{navOptions.map((value, i)=>{
+					return <MenuItemOption  key={i} img={value.img} title={value.title} message={value.text} />;
+				})}
 			</div>
 		</div>
 	);
@@ -155,19 +187,23 @@ function NavMenuButton({ icon }) {
 	);
 }
 
-function MenuItemOption(){
-	return (
+function MenuItemOption({img, title, message}){
+	return (<>
 		<div className='menu-item'>
-			<img>
-			</img>
-			<div id='menu-item-title-cont'>
-				<h3>
-					Some title
-				</h3>
-				<p>
-					This is the sub paragraph bro
-				</p>
+			<hr></hr>
+			<div id='menu-item-img-title-cont'>
+				<img src={img}>
+				</img>
+				<div id='menu-item-title-cont'>
+					<h3>
+						{title}
+					</h3>
+					<p>
+						{message}
+					</p>
+				</div>
 			</div>
 		</div>
+	</>
 	);
-}
+} 

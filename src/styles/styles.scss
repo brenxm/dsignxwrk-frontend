@@ -107,11 +107,13 @@ body {
             padding: 10px;
             width: 100%;
             display: flex;
-            flex-direction: row;
-            justify-content: left;
+            flex-direction: column;
+            justify-content: center;
             gap: 20px;
             animation-name: on-active;
             animation-duration: 0.5s;
+            color: white;
+            padding-left: 30px;
 
             @keyframes on-active {
                0% {
@@ -127,8 +129,20 @@ body {
       
             img {
                background-color: blue;
-               height: 100px;
+               height: 70px;
+               width: 70px;
                aspect-ratio: 1;
+            }
+
+            hr {
+               border: 0.5px solid rgba(255, 255, 255, 0.2);
+            }
+
+            #menu-item-img-title-cont {
+               display: flex;
+               flex-direction: row;
+               justify-content: left;
+               gap: 20px;
             }
       
             #menu-item-title-cont {
