@@ -19,13 +19,14 @@ body {
    width: 100vw;
    margin: 0;
    padding: 0;
+   height: 100vh;
 }
 
 #app {
    display: flex;
    flex-direction: column;
-   justify-content: center;
    align-items: center;
+   overflow: auto;
 }
 
 /* Section Header */
@@ -72,34 +73,103 @@ body {
 }
 
 /* Top nav menu */
-.top-nav-menu {
+.top-nav-cont {
+   position: absolute;
    z-index: 3;
-   position: sticky;
+   height: 3000px;
+   width: 100vw;
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
-   background-color: rgb(32, 32, 32);
-   padding: 10px;
-   transition: all 0.5s ease;
+   justify-content: center;
+   top: 0;
 
-   #top-nav_but {
-      width: 50px;
-      height: 50px;
-      background-color: rgba(0, 0, 0, 0);
-      border: none;
-      rotate: 225deg;
-   }
+   .top-nav-menu {
+      position: sticky;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgb(32, 32, 32);
+      padding: 10px;
+      transition: all 0.2s ease;
 
-   #title-text {
-      color: rgb(205, 205, 205);
-      font-size: 25px;
-      font-family: 'DubaiRegular';
-      text-align: center;
-   }
+      #nav-dock-cont {
+         display: flex;
+         flex-direction: row;
+         justify-content: space-between;
+         width: 100%;
+      }
 
-   #top-nav_but_img {
-      width: 45%;
+      #nav-menu-cont {
+         width: 100%;
+
+         .menu-item {
+            position: relative;
+            padding: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            gap: 20px;
+            animation-name: on-active;
+            animation-duration: 0.5s;
+
+            @keyframes on-active {
+               0% {
+                  left: -100px;
+                  opacity: 0;
+               }
+
+               100% {
+                  opacity: 1;
+                  left: 0px;
+               }
+            }
+      
+            img {
+               background-color: blue;
+               height: 100px;
+               aspect-ratio: 1;
+            }
+      
+            #menu-item-title-cont {
+               display: flex;
+               flex-direction: column;
+               justify-content: center;
+               gap: 10px;
+            }
+         }
+      }
+
+      #top-nav_but {
+         width: 50px;
+         height: 50px;
+         background-color: rgba(0, 0, 0, 0);
+         border: none;
+         rotate: 225deg;
+         pointer-events: all;
+      }
+
+      #title-text {
+         color: rgb(205, 205, 205);
+         font-size: 25px;
+         font-family: 'DubaiRegular';
+         text-align: center;
+      }
+
+      #top-nav_but_img {
+         width: 45%;
+      }
    }
+}
+
+
+
+.main-body {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 3000px;
 }
 
 /* Image Slider */
@@ -150,12 +220,9 @@ body {
    flex-direction: column;
    align-items: center;
    justify-content: space-between;
-   overflow-y: hidden;
-   height: calc(100vh - $top-nav-height);
+   height: 800px;
    padding: 10px 10px;
    width: 100%;
-   position: relative;
-   top: -70px;
 
    #home-section_img {
       width: 700px;
@@ -198,7 +265,6 @@ body {
    background-color: rgb(220, 29, 29);
    height: 2000px;
    width: 100vw;
-   z-index: 2;
 }
 
 /* Module Section */
@@ -213,9 +279,4 @@ body {
    background-color: green;
    width: 100vw;
    height: 750px;
-}
-
-/* Spacer */
-.spacer {
-   flex-grow: 0.3;
 }

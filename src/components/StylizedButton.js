@@ -4,7 +4,8 @@ export function CircleButton({ icon, clickFn }) {
 	const nav_color = 'rgb(32, 32, 32)';
 	const nav_highLight = 'rgb(20, 20, 20)';
 
-	function handleClick() {
+	function handleClick(e) {
+		e.preventDefault();
 		clickFn();
 	}
 
