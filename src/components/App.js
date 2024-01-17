@@ -4,9 +4,7 @@ import ScrollAnimPage from './ScrollingSection';
 import ModuleSection from './ModulesSection';
 import SoftwareSection from './SoftwareSection';
 import mainLogo from '../assets/nav_buttons/main_logo.png';
-import { CircleButton } from './StylizedButton';
-import { useEffect, useState } from 'react';
-import { Spacer } from './CommonComponents';
+import { useState, useEffect } from 'react';
 
 export default function App() {
 	return (
@@ -25,185 +23,225 @@ export default function App() {
 	);
 }
 
-class SingletonBool {
-	constructor(boolean = false) {
-		this.bool = boolean;
-	}
-
-	getBool() {
-		return this.bool;
-	}
-
-	setBool(boolean) {
-		this.bool = boolean;
-	}
-}
 function TopNavMenu() {
-	const navDockStyle = {
-		top: '0',
-		width: '100%',
-		borderRadius: '0',
-		height: '70px',
+	/*
+		Use by expandNavStyle state
+		default value, Fully expanded when at homepage
+	*/
+	const expandedNav = {
+		title: { display: 'block' },
+		subtext: { display: 'block' },
+		img: { width: '40px', height: '40px' },
 	};
 
-	const navUndockStyle = {
-		top: '30px',
-		width: '80%',
-		borderRadius: '20px',
-		height: '70px',
+	const dockedNav = {
+		title: {
+			display: 'none',
+		},
+		subtext: {
+			display: 'none',
+		},
+		img: {
+			width: '20px',
+			height: '20px',
+		},
 	};
 
-	const expandedNavMenuStyle = {
-		top: '0',
-		width: '100%',
-		borderRadius: '0',
-		height: '100vh',
+	const expandeMenuStyle = {
+		...dockedNav,
+		menu: { height: '100vh' },
 	};
 
-	const inUndockArea = () => window.scrollY <= 100;
-
-	let expandedNavMenu = new SingletonBool();
-
-	const [navMenuStyle, setNavMenuStyle] = useState({
-		...navUndockStyle,
-		height: '70px',
-	});
-
-	const [titleOpacity, setTitleOpacity] = useState('1');
-
-	const [navDockContDisplay, setNavDockContDisplay] = useState('none');
-
-	const handleScroll = (e) => {
-		console.log(e.target);
-		if (expandedNavMenu.bool) {
-			console.log('should called');
-			return;
-		}
-
-		// UNDOCK nav menu
-		if (inUndockArea()) {
-			setNavMenuStyle(navUndockStyle);
-			setTitleOpacity('1');
-		} else {
-			setNavMenuStyle(navDockStyle);
-			setTitleOpacity('0');
-		}
+	const hiddenMenuStyle = {
+		...dockedNav,
+		menu: { height: 'auto' },
 	};
+
+	const [expandNavStyle, setExpandNavStyle] = useState(expandedNav);
+	const [menuExpandedStyle, setMenuExpandedStyle] = useState(hiddenMenuStyle);
+	const [menuExpanded, setMenuExpanded] = useState(false);
+	const menuItemsManager = new MenuOptionManager();
 
 	useEffect(() => {
-		const app = document.querySelector('#app');
-
-		app.addEventListener('scroll', handleScroll);
-
-		return () => {
-			app.removeEventListener('scroll', handleScroll);
-		};
-	}, [
-		expandedNavMenu.bool,
-		setNavMenuStyle,
-		navUndockStyle,
-		navDockStyle,
-		setTitleOpacity,
-		inUndockArea,
-	]);
+		window.addEventListener('scroll', () => {
+			if (window.scrollY > 100) {
+				setExpandNavStyle(dockedNav);
+				console.log('changed');
+			} else {
+				setExpandNavStyle(expandedNav);
+			}
+		});
+	}, []);
 
 	function toggleMenuTray() {
-		const app = document.querySelector('#app');
-		const navMenuCurrHeight = document
-			.querySelector('.top-nav-menu')
-			.getBoundingClientRect().height;
-
 		// Toggle ON
-		if (navMenuCurrHeight == 70) {
-			app.removeEventListener('scroll', handleScroll);
-			setNavMenuStyle(expandedNavMenuStyle);
-			expandedNavMenu.setBool(true);
-			setNavDockContDisplay('Block');
-			setTitleOpacity(0);
+		if (!menuExpanded) {
+			menuItemsManager.showItems();
+			setMenuExpanded(true);
+			setMenuExpandedStyle(expandeMenuStyle);
+			setExpandNavStyle(dockedNav);
 		} else {
 			// TOGGLE OFF
-			setTitleOpacity(1);
-			setNavDockContDisplay('none');
-			expandedNavMenu.setBool(false);
-			app.addEventListener('scroll', handleScroll);
-			if (inUndockArea()) {
-				setNavMenuStyle(navUndockStyle);
+			if (window.scrollY > 100) {
+				setExpandNavStyle(hiddenMenuStyle);
 			} else {
-				setNavMenuStyle(navDockStyle);
+				setExpandNavStyle(expandedNav);
 			}
+			setMenuExpandedStyle(hiddenMenuStyle);
+			menuItemsManager.hideItems();
+			setMenuExpanded(false);
+			console.log('callder');
 		}
 	}
 
-	// Navigation OPTIONS
-	const navOptions = [
+	menuItemsManager.add([
 		{
 			title: 'Macro Boards',
 			img: 'hehe',
-			text: 'Some message goes here but whaterver dude'
+			subText: 'Some message goes here but whaterver dude',
 		},
 		{
 			title: 'Modules',
 			img: 'buts',
-			text: 'Hekhekhekeh wataevah'
+			subText: 'Hekhekhekeh wataevah',
 		},
 		{
 			title: 'Softwares',
 			img: 'uks',
-			text: 'This is the software side of this thing hehe it is what it is'
-		}
-	];
+			subText:
+            'This is the software side of this thing hehe it is what it is',
+		},
+	]);
 
 	return (
-		<div className="top-nav-menu" style={navMenuStyle}>
-			<div id='nav-dock-cont' > 
-				<CircleButton
-					icon={<NavMenuButton icon={mainLogo} />}
-					clickFn={toggleMenuTray}
-				/>
-				<h2
-					style={{ opacity: titleOpacity, transition: 'all 0.2s ease' }}
-					id="title-text"
-				>
-					Dsign x Wrk
-				</h2>
-				<Spacer size={'0.3'} />
+		<div className="top-nav-menu" style={menuExpandedStyle.menu}>
+			<div id="nav-dock-cont">
+				<div id="nav-but-title-cont">
+					<button
+						id="top-nav_but"
+						onClick={toggleMenuTray}
+						style={{
+							width: '40px',
+							height: '40px',
+							backgroundImage: `url(${mainLogo})`,
+							backgroundSize: '30px',
+							backgroundPosition: 'center',
+							backgroundRepeat: 'no-repeat',
+							backgroundColor: 'rgba(0,0,0,0)',
+							border:'none'
+						}}
+					></button>
+					<h2 style={expandNavStyle.title} id="title-text">
+                  Dsign x Wrk
+					</h2>
+				</div>
+				<p style={expandNavStyle.subtext}>
+               Catering to the artists who value the craft of artistry in their
+               professional endevour.
+				</p>
 			</div>
-			<div id='nav-menu-cont' style={{
-				display: navDockContDisplay
-			}}>
-				{navOptions.map((value, i)=>{
-					return <MenuItemOption  key={i} img={value.img} title={value.title} message={value.text} />;
+			<div id="nav-menu-cont">
+				{menuItemsManager.menuItems.map((item, i) => {
+					return (
+						<MenuItemOption
+							key={i}
+							img={item.img}
+							title={item.title}
+							subText={item.subText}
+							style={item.style}
+						/>
+					);
 				})}
 			</div>
 		</div>
 	);
 }
 
-function NavMenuButton({ icon }) {
-	return (
-		<button id="top-nav_but">
-			<img src={icon} id="top-nav_but_img"></img>
-		</button>
-	);
+class MenuOptionManager {
+	constructor() {
+		this.menuItems = [];
+	}
+
+	add(input) {
+		const Schema = (img, title, subText, style, setStyle) => {
+			return {
+				img: img,
+				title: title,
+				subText: subText,
+				setStyle: setStyle,
+				style: style,
+			};
+		};
+
+		if (input instanceof Array) {
+			for (let item of input) {
+				const [style, _setStyle] = useState({
+					display: 'none',
+					opacity: '0',
+				});
+
+				const newObj = new Schema(
+					item.img,
+					item.title,
+					item.subText,
+					style,
+					_setStyle
+				);
+
+				this.menuItems.push(newObj);
+			}
+		} else if (input instanceof Object) {
+			const [style, _setStyle] = useState({
+				display: 'none',
+				opacity: '0',
+			});
+
+			const newObj = new Schema(
+				input.img,
+				input.title,
+				input.subText,
+				style,
+				_setStyle
+			);
+
+			this.menuItems.push(newObj);
+		}
+	}
+
+	async showItems(ms = 70) {
+		for (const item of this.menuItems) {
+			console.log(item);
+			await new Promise((resolve) => setTimeout(resolve, ms));
+			item.setStyle({
+				display: 'flex',
+				opacity: '1',
+			});
+		}
+	}
+
+	hideItems() {
+		for (const item of this.menuItems) {
+			item.setStyle({
+				display: 'none',
+				opacity: '0',
+			});
+		}
+	}
 }
 
-function MenuItemOption({img, title, message}){
-	return (<>
-		<div className='menu-item'>
-			<hr></hr>
-			<div id='menu-item-img-title-cont'>
-				<img src={img}>
-				</img>
-				<div id='menu-item-title-cont'>
-					<h3>
-						{title}
-					</h3>
-					<p>
-						{message}
-					</p>
+function MenuItemOption({ img, title, subText, style }) {
+	return (
+		<>
+			<div className="menu-item" style={style}>
+				<hr></hr>
+				<div id="menu-item-img-title-cont">
+					<img src={img}></img>
+					<div id="menu-item-title-cont">
+						<h3>{title}</h3>
+						<p>{subText}</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</>
+		</>
 	);
-} 
+}

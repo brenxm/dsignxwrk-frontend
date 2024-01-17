@@ -1,5 +1,7 @@
 import React from 'react';
-import img from '../assets/homeboard3.png';
+import img from '../assets/home_image.webp';
+import imgSlider1 from '../assets/home_1.png';
+import imgSlider2 from '../assets/home_2.png';
 
 export default function HomeSection() {
 	return (
@@ -7,18 +9,30 @@ export default function HomeSection() {
 			className="home-section_cont"
 			style={{
 				backgroundImage: `url(${img})`,
-				backgroundSize: '800px',
-				backgroundPositionX: '-200px',
-				backgroundPositionY: '-100px',
+				
 			}}
-		></div>
+		>
+			<div style={{
+				backgroundImage: `url(${imgSlider1})`,
+				height: '100%',
+				width: '100%',
+				backgroundSize: '650px',
+				animationName: 'module-slider',
+				animationDuration: '1000s',
+				animationIterationCount: 'infinite',
+				animationTimingFunction: 'linear'
+			}}></div>
+
+			<div style={{
+				backgroundImage: `url(${imgSlider2})`,
+				height: '100%',
+				width: '100%',
+				backgroundSize: '650px',
+				animationName: 'module-slider',
+				animationDuration: '1000s',
+				animationIterationCount: 'infinite',
+				animationTimingFunction: 'linear'
+			}}></div>
+		</div>
 	);
 }
-
-/*
-<Header
-				icon={mainIcon}
-				title="Dsign x Wrk"
-				message='A fusion of design and work, " dsign x wrk" embodies the integration of creative aesthetics with practical functionality. It represents a commitment to blending artistic passion with work, catering to those who value the artistry in their professional endeavors.'
-			/>
-*/

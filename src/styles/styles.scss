@@ -13,13 +13,14 @@ $scroll-section-height: 600px;
    padding: 0;
    box-sizing: border-box;
    z-index: 0;
+   transition: all 0.5s ease;
 }
 
 body {
    width: 100vw;
    margin: 0;
    padding: 0;
-   height: 100vh;
+   height: 0;
 }
 
 #app {
@@ -27,6 +28,7 @@ body {
    flex-direction: column;
    align-items: center;
    overflow: auto;
+   height: 100vh;
 }
 
 /* Section Header */
@@ -78,25 +80,61 @@ body {
    z-index: 3;
    height: 3000px;
    width: 100vw;
-   display: flex;
    flex-direction: row;
    justify-content: center;
-   top: 0;
 
    .top-nav-menu {
+      position: -webkit-sticky;
       position: sticky;
+      top: 0;
       display: flex;
+      width: 100vw;
       flex-direction: column;
       align-items: center;
-      background-color: rgb(32, 32, 32);
+      background-color: rgba(32, 32, 32, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       padding: 10px;
       transition: all 0.2s ease;
 
       #nav-dock-cont {
          display: flex;
-         flex-direction: row;
-         justify-content: space-between;
+         flex-direction: column;
+         justify-content: left;
+         align-items: center;
          width: 100%;
+         padding-left: 10px;
+
+         #nav-but-title-cont {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+
+            #top-nav_but {
+            }
+
+            h2 {
+               text-align: left;
+               display: inline;
+               font-size: 20px;
+               letter-spacing: 2px;
+            }
+         }
+
+         p {
+            color: rgb(131, 131, 131);
+            font-size: 12.5px;
+            text-align: center;
+         }
+      }
+
+     
+
+      #title-text-cont {
+         display: flex;
+         flex-direction: column;
+         justify-content: left;
       }
 
       #nav-menu-cont {
@@ -106,27 +144,30 @@ body {
             position: relative;
             padding: 10px;
             width: 100%;
-            display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 20px;
             animation-name: on-active;
-            animation-duration: 0.5s;
+            animation-duration: 0.7s;
             color: white;
             padding-left: 30px;
 
             @keyframes on-active {
                0% {
-                  left: -100px;
+                  top: -100px;
                   opacity: 0;
+               }
+
+               50% {
+                  top: 0px;
                }
 
                100% {
                   opacity: 1;
-                  left: 0px;
+                  top: 0px;
                }
             }
-      
+
             img {
                background-color: blue;
                height: 70px;
@@ -144,7 +185,7 @@ body {
                justify-content: left;
                gap: 20px;
             }
-      
+
             #menu-item-title-cont {
                display: flex;
                flex-direction: column;
@@ -152,15 +193,6 @@ body {
                gap: 10px;
             }
          }
-      }
-
-      #top-nav_but {
-         width: 50px;
-         height: 50px;
-         background-color: rgba(0, 0, 0, 0);
-         border: none;
-         rotate: 225deg;
-         pointer-events: all;
       }
 
       #title-text {
@@ -171,19 +203,17 @@ body {
       }
 
       #top-nav_but_img {
-         width: 45%;
+         width: 100%;
       }
    }
 }
 
-
-
 .main-body {
+   position: absolute;
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   height: 3000px;
 }
 
 /* Image Slider */
@@ -234,44 +264,23 @@ body {
    flex-direction: column;
    align-items: center;
    justify-content: space-between;
-   height: 800px;
+   height: 100vh;
    padding: 10px 10px;
    width: 100%;
+   background-repeat: no-repeat;
+   background-size: 100vh;
+   background-position: -200px;
 
-   #home-section_img {
-      width: 700px;
-      left: 100px;
-      z-index: 0;
-   }
+   @keyframes module-slider {
+      0% {
+         background-position-x: 0;
+      }
 
-   #title-icon_cont {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      padding: 0 40px;
-   }
-
-   #title-icon {
-      width: 20px;
-      aspect-ratio: 1;
-      rotate: 225deg;
-      opacity: 0.8;
-   }
-
-   #title-text_cont {
-      background-color: rgb(32, 32, 32);
-      border-radius: 15px;
-      padding: 10px;
-
-      p {
-         color: rgb(186, 186, 186);
-         font-family: 'DubaiRegular';
-         text-align: center;
-         line-height: 18px;
+      100% {
+         background-position-x: 4000%;
       }
    }
+
 }
 
 /* Scroll Anim Section */
