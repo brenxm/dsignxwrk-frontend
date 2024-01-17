@@ -1,38 +1,45 @@
 import React from 'react';
 import img from '../assets/home_image.webp';
-import imgSlider1 from '../assets/home_1.png';
-import imgSlider2 from '../assets/home_2.png';
+import imgSlider1 from '../assets/slider_1.webp';
+import imgSlider2 from '../assets/slider_2.webp';
+import imgSlider3 from '../assets/slider_3.webp';
+import imgSlider4 from '../assets/slider_4.webp';
 
 export default function HomeSection() {
 	return (
-		<div
-			className="home-section_cont"
-			style={{
-				backgroundImage: `url(${img})`,
-				
-			}}
-		>
-			<div style={{
-				backgroundImage: `url(${imgSlider1})`,
-				height: '100%',
-				width: '100%',
-				backgroundSize: '650px',
-				animationName: 'module-slider',
-				animationDuration: '1000s',
-				animationIterationCount: 'infinite',
-				animationTimingFunction: 'linear'
-			}}></div>
+		<div className="home-section_cont">
+			<img
+				src={img}
+				style={{
+					backgroundSize: '200px',
+					backgroundPosition: 'center',
+					height: '100%',
+				}}
+			></img>
+			<div id="slider-effect-cont">
+				<SliderEffect scrImg={imgSlider1} />
+				<SliderEffect scrImg={imgSlider2} />
+				<SliderEffect scrImg={imgSlider3} />
+				<SliderEffect scrImg={imgSlider4} />
+				<div style={{ flex: '0.4' }}></div>
+				<SliderEffect scrImg={imgSlider2} />
+				<SliderEffect scrImg={imgSlider3} />
+				<SliderEffect scrImg={imgSlider4} />
+				<SliderEffect scrImg={imgSlider1} />
+			</div>
+		</div>
+	);
+}
 
-			<div style={{
-				backgroundImage: `url(${imgSlider2})`,
-				height: '100%',
-				width: '100%',
-				backgroundSize: '650px',
-				animationName: 'module-slider',
-				animationDuration: '1000s',
-				animationIterationCount: 'infinite',
-				animationTimingFunction: 'linear'
-			}}></div>
+function SliderEffect({ scrImg }) {
+	return (
+		<div className="slider-element-cont" style={{}}>
+			<div
+				id="slider-img"
+				style={{
+					backgroundImage: `url(${scrImg})`,
+				}}
+			></div>
 		</div>
 	);
 }

@@ -128,7 +128,7 @@ function TopNavMenu() {
 							backgroundPosition: 'center',
 							backgroundRepeat: 'no-repeat',
 							backgroundColor: 'rgba(0,0,0,0)',
-							border:'none'
+							border: 'none',
 						}}
 					></button>
 					<h2 style={expandNavStyle.title} id="title-text">
