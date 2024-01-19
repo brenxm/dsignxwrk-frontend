@@ -12,11 +12,6 @@ export default function ScrollAnimPage({imgIndex}) {
 		});
 	}, []);
 
-	// Updating the current img viewed in sequence based on the scrollY data passed from App component
-	useEffect(()=>{
-		console.log(imgIndex);
-	}, [imgIndex]);
-
 	function loadScrollImgs(numOfImgs) {
 		// Load all images in a specified file
 		// Param
