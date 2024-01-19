@@ -1,14 +1,15 @@
 import React from 'react';
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 
 export default function ScrollAnimPage({imgIndex}) {
-
-	const scrollImgs = [];
+	const [scrollImgs, SetScrollImgs] = useState([]);
 
 	// Initialization
 	useEffect(()=>{
-		loadScrollImgs(scrollImgs, 30);
+		loadScrollImgs(30).then(modules => {
+			const loadedImages = modules.map(module => module.default);
+			SetScrollImgs(loadedImages);
+		});
 	}, []);
 
 	// Updating the current img viewed in sequence based on the scrollY data passed from App component
@@ -16,24 +17,23 @@ export default function ScrollAnimPage({imgIndex}) {
 		console.log(imgIndex);
 	}, [imgIndex]);
 
-	function loadScrollImgs(scrollImgsRef, numOfImgs) {
+	function loadScrollImgs(numOfImgs) {
 		// Load all images in a specified file
 		// Param
 		// scrollImgs (Array)
 		// -> None
+		const images = [];
 
 		for (let i = 1; i <= numOfImgs; i++) {
 			const prefixNum = i - 10 >= 0 ? i : `0${i}`; //Prefix handling
-			const imgPath = `../assets/scroll_imgs/00${prefixNum}.webp`;
-			scrollImgsRef.push(imgPath);
+			images.push(import(`../assets/scroll_imgs/00${prefixNum}.webp`));
 		}
-		console.log(scrollImgs[0]);
+		return Promise.all(images);
 	}
 
 	return <div className="scroll-anim-section">
 		<div id='sequence-images-cont'>
-			<img src={scrollImgs[imgIndex]}>
-			</img>
+			<img src={scrollImgs[imgIndex]} />
 		</div>
 	</div>;
 }
