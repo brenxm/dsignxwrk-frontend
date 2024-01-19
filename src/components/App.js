@@ -7,6 +7,30 @@ import mainLogo from '../assets/nav_buttons/main_logo.png';
 import { useState, useEffect } from 'react';
 
 export default function App() {
+	const [scrollImgIndex, setScrollImgIndex] = useState(0);
+
+	useEffect(() => {
+		window.addEventListener('scroll', () => {
+			const scrollStart = 600;
+			const scrollEnd = 2100;
+
+			if (window.scrollY >= scrollStart && window.scrollY <= scrollEnd) {
+				const MAX_IMG_SEQ = 30; // Coordinate with Scroll Section Component
+				const START_IMG_INDEX = 1;
+				let scrollFrame = Math.abs(scrollEnd - scrollStart);
+				const scrollFramePerImage = (scrollFrame / MAX_IMG_SEQ);
+				scrollFrame = scrollFrame - scrollFramePerImage; // Adjusting Frame to start at 0
+
+				const imgIndex = (((scrollY - 600) * (MAX_IMG_SEQ - START_IMG_INDEX)) / scrollFrame) + START_IMG_INDEX;
+
+				setScrollImgIndex(Math.floor(imgIndex) - 1);
+			}
+		});
+	}, []);
+
+	/* Scroll Image Section */
+	/* eslint-disable-next-line */
+
 	return (
 		<>
 			<div className="top-nav-cont">
@@ -15,7 +39,7 @@ export default function App() {
 
 			<div className="main-body">
 				<HomeSection />
-				<ScrollAnimPage />
+				<ScrollAnimPage imgIndex={scrollImgIndex}/>
 				<ModuleSection />
 				<SoftwareSection />
 			</div>
@@ -66,7 +90,7 @@ function TopNavMenu() {
 		window.addEventListener('scroll', () => {
 			if (window.scrollY > 100) {
 				setExpandNavStyle(dockedNav);
-				console.log('changed');
+
 			} else {
 				setExpandNavStyle(expandedNav);
 			}
@@ -112,6 +136,8 @@ function TopNavMenu() {
             'This is the software side of this thing hehe it is what it is',
 		},
 	]);
+
+
 
 	return (
 		<div className="top-nav-menu" style={menuExpandedStyle.menu}>
