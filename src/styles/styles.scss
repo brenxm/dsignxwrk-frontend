@@ -316,6 +316,17 @@ body {
    background-color: rgb(220, 29, 29);
    height: 2000px;
    width: 100vw;
+
+   #sequence-images-cont {
+      position: sticky;
+      top: 0;
+
+      img {
+         width: 100%;
+      }
+   }
+
+
 }
 
 /* Module Section */
