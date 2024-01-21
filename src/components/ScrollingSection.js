@@ -6,7 +6,7 @@ export default function ScrollAnimPage({ imgIndex, height }) {
 
 	// Initialization
 	useEffect(() => {
-		loadScrollImgs(30).then((modules) => {
+		loadScrollImgs(50).then((modules) => {
 			const loadedImages = modules.map((module) => module.default);
 			SetScrollImgs(loadedImages);
 		});

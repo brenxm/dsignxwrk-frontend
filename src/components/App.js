@@ -13,7 +13,7 @@ export default function App() {
 	useEffect(() => {
 		const scrollStart = 600;
 		const scrollEnd = 2100;
-		const IMG_COUNT = 30; // Coordinate with Scroll Section Component
+		const IMG_COUNT = 50; // Coordinate with Scroll Section Component
 		const START_IMG_INDEX = 1;
 		let scrollFrame = Math.abs(scrollEnd - scrollStart);
 		const scrollFramePerImage = scrollFrame / IMG_COUNT;
@@ -30,6 +30,7 @@ export default function App() {
                START_IMG_INDEX;
 
 				setScrollImgIndex(Math.floor(imgIndex) - 1); 
+				console.log(Math.floor(imgIndex - 1));
 			}
 		});
 	}, []);
