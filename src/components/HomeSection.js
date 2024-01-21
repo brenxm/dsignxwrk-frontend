@@ -7,25 +7,27 @@ import imgSlider4 from '../assets/slider_4.webp';
 
 export default function HomeSection() {
 	return (
-		<div className="home-section_cont">
-			<img
-				src={img}
-				style={{
-					backgroundSize: '200px',
-					backgroundPosition: 'center',
-					height: '100%',
-				}}
-			></img>
-			<div id="slider-effect-cont">
-				<SliderEffect scrImg={imgSlider1} />
-				<SliderEffect scrImg={imgSlider2} />
-				<SliderEffect scrImg={imgSlider3} />
-				<SliderEffect scrImg={imgSlider4} />
-				<div style={{ flex: '0.4' }}></div>
-				<SliderEffect scrImg={imgSlider2} />
-				<SliderEffect scrImg={imgSlider3} />
-				<SliderEffect scrImg={imgSlider4} />
-				<SliderEffect scrImg={imgSlider1} />
+		<div className="home-section-cont">
+			<div className="rotators-cont">
+				<img
+					src={img}
+					style={{
+						backgroundSize: '200px',
+						backgroundPosition: 'center',
+						height: '100%',
+					}}
+				></img>
+				<div id="slider-effect-cont">
+					<SliderEffect scrImg={imgSlider1} />
+					<SliderEffect scrImg={imgSlider2} />
+					<SliderEffect scrImg={imgSlider3} />
+					<SliderEffect scrImg={imgSlider4} />
+					<div style={{ flex: '0.4' }}></div>
+					<SliderEffect scrImg={imgSlider2} />
+					<SliderEffect scrImg={imgSlider3} />
+					<SliderEffect scrImg={imgSlider4} />
+					<SliderEffect scrImg={imgSlider1} />
+				</div>
 			</div>
 		</div>
 	);

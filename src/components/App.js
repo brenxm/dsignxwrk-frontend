@@ -8,22 +8,28 @@ import { useState, useEffect } from 'react';
 
 export default function App() {
 	const [scrollImgIndex, setScrollImgIndex] = useState(0);
+	const [scrollingSectionHeight, setScrollingSectionHeight] = useState('0');
 
 	useEffect(() => {
+		const scrollStart = 600;
+		const scrollEnd = 2100;
+		const IMG_COUNT = 30; // Coordinate with Scroll Section Component
+		const START_IMG_INDEX = 1;
+		let scrollFrame = Math.abs(scrollEnd - scrollStart);
+		const scrollFramePerImage = scrollFrame / IMG_COUNT;
+		scrollFrame = scrollFrame - scrollFramePerImage; // Adjusting Frame to start at 0
+
+		setScrollingSectionHeight(`calc(${IMG_COUNT * scrollFramePerImage}px + 100vh)`);
 		window.addEventListener('scroll', () => {
-			const scrollStart = 600;
-			const scrollEnd = 2100;
-
 			if (window.scrollY >= scrollStart && window.scrollY <= scrollEnd) {
-				const MAX_IMG_SEQ = 30; // Coordinate with Scroll Section Component
-				const START_IMG_INDEX = 1;
-				let scrollFrame = Math.abs(scrollEnd - scrollStart);
-				const scrollFramePerImage = (scrollFrame / MAX_IMG_SEQ);
-				scrollFrame = scrollFrame - scrollFramePerImage; // Adjusting Frame to start at 0
+				
+				// LERP
+				const imgIndex =
+               ((scrollY - 600) * (IMG_COUNT - START_IMG_INDEX)) /
+                  scrollFrame +
+               START_IMG_INDEX;
 
-				const imgIndex = (((scrollY - 600) * (MAX_IMG_SEQ - START_IMG_INDEX)) / scrollFrame) + START_IMG_INDEX;
-
-				setScrollImgIndex(Math.floor(imgIndex) - 1);
+				setScrollImgIndex(Math.floor(imgIndex) - 1); 
 			}
 		});
 	}, []);
@@ -33,16 +39,11 @@ export default function App() {
 
 	return (
 		<>
-			<div className="top-nav-cont">
-				<TopNavMenu />
-			</div>
-
-			<div className="main-body">
-				<HomeSection />
-				<ScrollAnimPage imgIndex={scrollImgIndex}/>
-				<ModuleSection />
-				<SoftwareSection />
-			</div>
+			<TopNavMenu />
+			<HomeSection />
+			<ScrollAnimPage imgIndex={scrollImgIndex} height={scrollingSectionHeight}/>
+			<ModuleSection />
+			<SoftwareSection />
 		</>
 	);
 }
@@ -90,7 +91,6 @@ function TopNavMenu() {
 		window.addEventListener('scroll', () => {
 			if (window.scrollY > 100) {
 				setExpandNavStyle(dockedNav);
-
 			} else {
 				setExpandNavStyle(expandedNav);
 			}
@@ -136,8 +136,6 @@ function TopNavMenu() {
             'This is the software side of this thing hehe it is what it is',
 		},
 	]);
-
-
 
 	return (
 		<div className="top-nav-menu" style={menuExpandedStyle.menu}>

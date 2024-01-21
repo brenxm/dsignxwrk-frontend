@@ -1,13 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-export default function ScrollAnimPage({imgIndex}) {
+export default function ScrollAnimPage({ imgIndex, height }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
 
 	// Initialization
-	useEffect(()=>{
-		loadScrollImgs(30).then(modules => {
-			const loadedImages = modules.map(module => module.default);
+	useEffect(() => {
+		loadScrollImgs(30).then((modules) => {
+			const loadedImages = modules.map((module) => module.default);
 			SetScrollImgs(loadedImages);
 		});
 	}, []);
@@ -26,9 +26,13 @@ export default function ScrollAnimPage({imgIndex}) {
 		return Promise.all(images);
 	}
 
-	return <div className="scroll-anim-section">
-		<div id='sequence-images-cont'>
-			<img src={scrollImgs[imgIndex]} />
+	return (
+		<div className="scroll-anim-section" style={{
+			height: height
+		}}>
+			<div id="sequence-images-cont">
+				<img src={scrollImgs[imgIndex]} />
+			</div>
 		</div>
-	</div>;
+	);
 }
