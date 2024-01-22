@@ -4,8 +4,9 @@ export default class TrackScrollSpeed {
 
 	constructor(component){
 		console.log(component);
-		this._lastPos = component.scrollLeft;
-		this._lastTime = performance.now();
+		this.component = component;
+		this.lastPos = component.scrollLeft;
+		this.lastTime = performance.now();
 	}
 
 	start(){
@@ -15,6 +16,7 @@ export default class TrackScrollSpeed {
 		}
 
 		this.#stopRequest = false;
+		this.#scrolling = true;
 		requestAnimationFrame(this.trackSCrollSPeed);
 	}
 
@@ -22,24 +24,24 @@ export default class TrackScrollSpeed {
 		this.#stopRequest = true;
 	}
 
-	trackSCrollSPeed(){
-		const currentPos = this._component;
+	trackSCrollSPeed = () => {
+		const currentPos = this.component.scrollLeft;
 		const currentTime = performance.now();
 
-		const timeElapsed = currentTime - this._lastTime;
-		const distanceScrolled = currentPos - this._lastPos;
+		const timeElapsed = currentTime - this.lastTime;
+		const distanceScrolled = currentPos - this.lastPos;
 
 		const speed = (distanceScrolled / timeElapsed) * 1000; // speed per sec
 
 		console.log(` The speed of scrolling is ${speed} pixels per second`);
 
-		this._lastPos = currentPos;
-		this._lastTime = currentTime;
+		this.lastPos = currentPos;
+		this.lastTime = currentTime;
 
 		if (this.#stopRequest){
 			return;
 		}
 
 		requestAnimationFrame(this.trackSCrollSPeed);
-	}
+	};
 }
