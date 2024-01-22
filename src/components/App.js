@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 export default function App() {
 	const [scrollImgIndex, setScrollImgIndex] = useState(0);
 	const [scrollingSectionHeight, setScrollingSectionHeight] = useState('0');
+	const [appScrollY, setAppScrollY] = useState(0);
 
 	useEffect(() => {
 		const scrollStart = 600;
@@ -19,30 +20,34 @@ export default function App() {
 		const scrollFramePerImage = scrollFrame / IMG_COUNT;
 		scrollFrame = scrollFrame - scrollFramePerImage; // Adjusting Frame to start at 0
 
-		setScrollingSectionHeight(`calc(${IMG_COUNT * scrollFramePerImage}px + 100vh)`);
+		setScrollingSectionHeight(
+			`calc(${IMG_COUNT * scrollFramePerImage}px + 100vh)`
+		);
 		window.addEventListener('scroll', () => {
+			setAppScrollY(window.scrollY);
+
 			if (window.scrollY >= scrollStart && window.scrollY <= scrollEnd) {
-				
 				// LERP
 				const imgIndex =
-               ((scrollY - 600) * (IMG_COUNT - START_IMG_INDEX)) /
-                  scrollFrame +
+               ((scrollY - 600) * (IMG_COUNT - START_IMG_INDEX)) / scrollFrame +
                START_IMG_INDEX;
 
-				setScrollImgIndex(Math.floor(imgIndex) - 1); 
-				console.log(Math.floor(imgIndex - 1));
+				setScrollImgIndex(Math.floor(imgIndex) - 1);
+			} else if (window.scrollY >= scrollEnd){
+				setScrollImgIndex(IMG_COUNT - 1);
 			}
 		});
 	}, []);
-
-	/* Scroll Image Section */
-	/* eslint-disable-next-line */
 
 	return (
 		<>
 			<TopNavMenu />
 			<HomeSection />
-			<ScrollAnimPage imgIndex={scrollImgIndex} height={scrollingSectionHeight}/>
+			<ScrollAnimPage
+				imgIndex={scrollImgIndex}
+				height={scrollingSectionHeight}
+				appScrollPos={appScrollY}
+			/>
 			<ModuleSection />
 			<SoftwareSection />
 		</>
