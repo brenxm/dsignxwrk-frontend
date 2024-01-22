@@ -7,6 +7,8 @@ import sliderImg2 from '../assets/scroll_imgs/0050.webp';
 // eslint-disable-next-line
 import sliderImg3 from '../assets/scroll_imgs/0050.webp';
 
+import TrackScrollSpeed from '../utils/Scrolling';
+
 export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
 	const [elementsOpacity, setElementsOpacity] = useState({
@@ -119,78 +121,101 @@ function IconDetail({ icon, subtext }) {
 }
 
 function ImgSlider({imgs}){
-	let notPressing = false;
+	// eslint-disable-next-line
 	const imgWidth = 500;
 	let scrollInterpolation;
-	let scrolling = false;
+	// eslint-disable-next-line
 	const imgsViewPos = [];
 	const vw = window.innerWidth;
-	let isScrolling;
-	let scrollSpeed;
 	let thisComponent;
+	let scrollSpeed; // Time interval var
+	let scrollDetection; // time interval var
+	let scrollFunctionBusy = false;
+	let actionPending;
+	
+	// Flags
+	let userScrolling = false;
+	let scrolling = false;
 
+	let trackSCrollSPeed;
+
+ 
 	// Initialize event listeners
 	useEffect(()=>{
-
 		thisComponent = window.document.querySelector('.slider-img-cont');
-		thisComponent.addEventListener('mousedown', ()=>{
-			if (scrolling){
-				thisComponent.addEventListener('scroll', scrollFunction);
-			} 
-			notPressing = true;
+		trackSCrollSPeed = new TrackScrollSpeed(thisComponent);
+
+		thisComponent.addEventListener('touchstart', ()=>{
+			actionPending = true;
+			userScrolling = true;
+			interuptScrollAnim();
+
+			trackSCrollSPeed.start();
 		});
 
-		window.addEventListener('mouseup', ()=>{
-			notPressing = false;
-			console.log(notPressing);
+		thisComponent.addEventListener('touchend', () => {
+			userScrolling = false;
+			window.clearInterval(scrollSpeed);
+
+			if (!scrolling){
+				attemptScroll();
+			}
 		});
 
-		thisComponent.addEventListener('scroll', scrollFunction);
+		thisComponent.addEventListener('scroll', ()=>{
+			window.clearTimeout(scrollDetection);
+			scrolling = true;
+
+			scrollDetection = setTimeout(()=>{
+				scrolling = false;
+				attemptScroll();
+			}, 66);
+		});
 
 		for (let i = 0; i < imgs.length; i++) {
 			imgsViewPos.push((imgWidth * i) + ((imgWidth - vw) / 2));
 		}
-
-		console.log(imgsViewPos);
 	},[]);
 
-	function scrollFunction(){
-		window.clearTimeout(isScrolling);
 
-		isScrolling = setTimeout(() => {
-			window.clearInterval(scrollSpeed);
-			if (!scrolling) {
-				const i = getClosestIndex(thisComponent.scrollLeft, imgsViewPos);
-				scrollToIndex(thisComponent, i);
-				console.log('called');
-			} else {
-				window.clearInterval(scrollInterpolation);
-			}
-		}, 60);
+	function interuptScrollAnim(){
+		window.clearInterval(scrollInterpolation);
+		scrollFunctionBusy = false;
 	}
 
-	function scrollToIndex(component, toIndex){
+	function attemptScroll(){
+		console.log(`${userScrolling} is user scrolling?`);
+		console.log(`${scrollFunctionBusy} is scrollBz?`);
+		if (userScrolling || scrollFunctionBusy || !actionPending) return;
+
+		scrollFunctionBusy = true;
+		scrollToIndex();
+		actionPending = false;
+	}
+
+	// eslint-disable-next-line
+	function scrollToIndex(){
+		const x = thisComponent.scrollLeft;
+		const toIndex = getClosestIndex(x);
+
 		const targetPos = (imgWidth * toIndex) + ((imgWidth - vw) / 2);
-		const currentPos = component.scrollLeft;
-		thisComponent.removeEventListener('scroll', scrollFunction);
+		const currentPos = thisComponent.scrollLeft;
 
 		// Ease interpolation
 		// f(t) = 3 * t^2 * (1 - t) + 3 * t * (1 - t)^2 + (1 - t)^3
-		const time = 1000; // 2 secs
+		const time = 500; //
 		let accu = 0;
 		const interval = time/60; // 60 fps
-		scrolling = true;
+
 		scrollInterpolation = setInterval(()=>{
 			accu += interval;
 
 			const moveTo = easeInOutCubic(normalized(accu, 0, time)) * (targetPos - currentPos) + currentPos;
 			
-			component.scrollTo(moveTo, 0);
+			thisComponent.scrollTo(moveTo, 0);
 
 			if (accu >= time){
 				window.clearInterval(scrollInterpolation);
-				scrolling = false;
-				thisComponent.addEventListener('scroll', scrollFunction);
 			}
 		}, interval);
 
@@ -208,11 +233,13 @@ function ImgSlider({imgs}){
 		}
 	}
 
-	function getClosestIndex(x, values){
+
+	// eslint-disable-next-line
+	function getClosestIndex(x){
 		let buffer = null;
 		let closestIndex = null;
-		for (let i = 0; i < values.length; i++) {
-			const d = Math.abs(x - values[i]);
+		for (let i = 0; i < imgsViewPos.length; i++) {
+			const d = Math.abs(x - imgsViewPos[i]);
 			if (!buffer || buffer > d){
 				closestIndex = i;
 				buffer = d;
@@ -227,11 +254,11 @@ function ImgSlider({imgs}){
 		flexDirection: 'row',
 		overflow: 'auto',
 		width: '100vw',
-		backgroundColor: 'red',
+		pointerEvents: 'auto'
 	}}>
 		{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
-			border: 'black 1px solid',
 			width: `${imgWidth}px`,
+			pointerEvents: 'none',
 		}} />)}
 	</div>;
 }
