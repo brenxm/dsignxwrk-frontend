@@ -119,14 +119,119 @@ function IconDetail({ icon, subtext }) {
 }
 
 function ImgSlider({imgs}){
-	return <div
-		className="slider-img-cont"
-		style={{
-			display: 'flex',
-			overflowX: 'scroll',
-			overflowY: 'hidden',
-		}}
-	>
-		{imgs.map((img, i) => <img key={i} src={img} />)}
+	let notPressing = false;
+	const imgWidth = 500;
+	let scrollInterpolation;
+	let scrolling = false;
+	const imgsViewPos = [];
+	const vw = window.innerWidth;
+	let isScrolling;
+	let scrollSpeed;
+	let thisComponent;
+
+	// Initialize event listeners
+	useEffect(()=>{
+
+		thisComponent = window.document.querySelector('.slider-img-cont');
+		thisComponent.addEventListener('mousedown', ()=>{
+			if (scrolling){
+				thisComponent.addEventListener('scroll', scrollFunction);
+			} 
+			notPressing = true;
+		});
+
+		window.addEventListener('mouseup', ()=>{
+			notPressing = false;
+			console.log(notPressing);
+		});
+
+		thisComponent.addEventListener('scroll', scrollFunction);
+
+		for (let i = 0; i < imgs.length; i++) {
+			imgsViewPos.push((imgWidth * i) + ((imgWidth - vw) / 2));
+		}
+
+		console.log(imgsViewPos);
+	},[]);
+
+	function scrollFunction(){
+		window.clearTimeout(isScrolling);
+
+		isScrolling = setTimeout(() => {
+			window.clearInterval(scrollSpeed);
+			if (!scrolling) {
+				const i = getClosestIndex(thisComponent.scrollLeft, imgsViewPos);
+				scrollToIndex(thisComponent, i);
+				console.log('called');
+			} else {
+				window.clearInterval(scrollInterpolation);
+			}
+		}, 60);
+	}
+
+	function scrollToIndex(component, toIndex){
+		const targetPos = (imgWidth * toIndex) + ((imgWidth - vw) / 2);
+		const currentPos = component.scrollLeft;
+		thisComponent.removeEventListener('scroll', scrollFunction);
+
+		// Ease interpolation
+		// f(t) = 3 * t^2 * (1 - t) + 3 * t * (1 - t)^2 + (1 - t)^3
+		const time = 1000; // 2 secs
+		let accu = 0;
+		const interval = time/60; // 60 fps
+		scrolling = true;
+		scrollInterpolation = setInterval(()=>{
+			accu += interval;
+
+			const moveTo = easeInOutCubic(normalized(accu, 0, time)) * (targetPos - currentPos) + currentPos;
+			
+			component.scrollTo(moveTo, 0);
+
+			if (accu >= time){
+				window.clearInterval(scrollInterpolation);
+				scrolling = false;
+				thisComponent.addEventListener('scroll', scrollFunction);
+			}
+		}, interval);
+
+		function easeInOutCubic(t){
+			if (t < 0.5){
+				return 4 * t * t * t;
+			} else {
+				const f =((2 * t) - 2);
+				return 0.5 * f * f * f + 1;
+			}
+		}
+
+		function normalized(x, min, max){
+			return (x-min)/(max-min);
+		}
+	}
+
+	function getClosestIndex(x, values){
+		let buffer = null;
+		let closestIndex = null;
+		for (let i = 0; i < values.length; i++) {
+			const d = Math.abs(x - values[i]);
+			if (!buffer || buffer > d){
+				closestIndex = i;
+				buffer = d;
+			}
+		}
+
+		return closestIndex;
+	}
+
+	return <div className="slider-img-cont" style={{
+		display: 'flex',
+		flexDirection: 'row',
+		overflow: 'auto',
+		width: '100vw',
+		backgroundColor: 'red',
+	}}>
+		{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
+			border: 'black 1px solid',
+			width: `${imgWidth}px`,
+		}} />)}
 	</div>;
 }

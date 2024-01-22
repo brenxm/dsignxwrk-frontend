@@ -308,20 +308,6 @@ body {
       top: 50px;
    }
 
-   .slider-img-cont::-webkit-scrollbar {
-      display: none;
-   }
-   .slider-img-cont {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-
-      
-      img {
-         width: 100%;
-         scale: 1.4;
-      }
-   }
-
    p {
       text-align: center;
       position: relative;
