@@ -130,8 +130,6 @@ function ImgSlider({imgs}){
 	let thisComponent;
 	let scrollSpeed; // Time interval var
 	let scrollDetection; // time interval var
-	let scrollFunctionBusy = false;
-	let actionPending;
 	
 	// Flags
 	let userScrolling = false;
@@ -149,19 +147,15 @@ function ImgSlider({imgs}){
 		trackSCrollSPeed = new TrackScrollSpeed(thisComponent);
 
 		thisComponent.addEventListener('touchstart', ()=>{
-			actionPending = true;
 			userScrolling = true;
 			interuptScrollAnim();
-
 			snapped = false;
 			scrollFrom = getClosestIndex(thisComponent.scrollLeft);
 
 			function someFunc(speed){
 
 				if (scrollFrom != getClosestIndex(thisComponent.scrollLeft)){
-					console.log(`scrollFrom: ${scrollFrom}, currentScroll: ${getClosestIndex(thisComponent.scrollLeft)}`);
 					if (!snapped && !userScrolling){
-						console.log('should snap');
 						scrollToIndex();
 						snapped = true;
 					}
@@ -170,7 +164,6 @@ function ImgSlider({imgs}){
 				else if (speed < 200 && !snapped && !userScrolling){
 					snapped = true;
 					scrollToIndex();
-					console.log('done');
 				}
 			}
 
@@ -180,8 +173,6 @@ function ImgSlider({imgs}){
 		thisComponent.addEventListener('touchend', () => {
 			userScrolling = false;
 			window.clearInterval(scrollSpeed);
-
-			
 		});
 
 		thisComponent.addEventListener('scroll', ()=>{
@@ -201,22 +192,13 @@ function ImgSlider({imgs}){
 
 	function interuptScrollAnim(){
 		window.clearInterval(scrollInterpolation);
-		scrollFunctionBusy = false;
+		thisComponent.scrollTo(thisComponent.scrollLeft, 0);
 	}
 
-	// eslint-disable-next-line
-	function attemptScroll(){
-		console.log(`${userScrolling} is user scrolling?`);
-		console.log(`${scrollFunctionBusy} is scrollBz?`);
-		if (userScrolling || scrollFunctionBusy || !actionPending) return;
-
-		scrollFunctionBusy = true;
-		scrollToIndex();
-		actionPending = false;
-	}
 
 	// eslint-disable-next-line
 	function scrollToIndex(){
+		console.log('called');
 		const x = thisComponent.scrollLeft;
 		const toIndex = getClosestIndex(x);
 
@@ -228,7 +210,6 @@ function ImgSlider({imgs}){
 		const time = 1000; //
 		let accu = 0;
 		const interval = time/60; // 60 fps
-
 		scrollInterpolation = setInterval(()=>{
 			accu += interval;
 
@@ -238,6 +219,7 @@ function ImgSlider({imgs}){
 
 			if (accu >= time){
 				window.clearInterval(scrollInterpolation);
+				thisComponent.scrollTo(thisComponent.scrollLeft, 0);
 			}
 		}, interval);
 
