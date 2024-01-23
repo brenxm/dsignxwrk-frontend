@@ -135,8 +135,11 @@ function ImgSlider({imgs}){
 	
 	// Flags
 	let userScrolling = false;
+	// eslint-disable-next-line
 	let scrolling = false;
-
+	// eslint-disable-next-line
+	let snapped = false;
+	let scrollFrom;
 	let trackSCrollSPeed;
 
  
@@ -150,16 +153,35 @@ function ImgSlider({imgs}){
 			userScrolling = true;
 			interuptScrollAnim();
 
-			trackSCrollSPeed.start();
+			snapped = false;
+			scrollFrom = getClosestIndex(thisComponent.scrollLeft);
+
+			function someFunc(speed){
+
+				if (scrollFrom != getClosestIndex(thisComponent.scrollLeft)){
+					console.log(`scrollFrom: ${scrollFrom}, currentScroll: ${getClosestIndex(thisComponent.scrollLeft)}`);
+					if (!snapped && !userScrolling){
+						console.log('should snap');
+						scrollToIndex();
+						snapped = true;
+					}
+				}
+				
+				else if (speed < 200 && !snapped && !userScrolling){
+					snapped = true;
+					scrollToIndex();
+					console.log('done');
+				}
+			}
+
+			trackSCrollSPeed.start(someFunc);
 		});
 
 		thisComponent.addEventListener('touchend', () => {
 			userScrolling = false;
 			window.clearInterval(scrollSpeed);
 
-			if (!scrolling){
-				attemptScroll();
-			}
+			
 		});
 
 		thisComponent.addEventListener('scroll', ()=>{
@@ -168,7 +190,6 @@ function ImgSlider({imgs}){
 
 			scrollDetection = setTimeout(()=>{
 				scrolling = false;
-				attemptScroll();
 			}, 66);
 		});
 
@@ -183,6 +204,7 @@ function ImgSlider({imgs}){
 		scrollFunctionBusy = false;
 	}
 
+	// eslint-disable-next-line
 	function attemptScroll(){
 		console.log(`${userScrolling} is user scrolling?`);
 		console.log(`${scrollFunctionBusy} is scrollBz?`);
@@ -203,14 +225,14 @@ function ImgSlider({imgs}){
 
 		// Ease interpolation
 		// f(t) = 3 * t^2 * (1 - t) + 3 * t * (1 - t)^2 + (1 - t)^3
-		const time = 500; //
+		const time = 1000; //
 		let accu = 0;
 		const interval = time/60; // 60 fps
 
 		scrollInterpolation = setInterval(()=>{
 			accu += interval;
 
-			const moveTo = easeInOutCubic(normalized(accu, 0, time)) * (targetPos - currentPos) + currentPos;
+			const moveTo = easeOut(normalized(accu, 0, time)) * (targetPos - currentPos) + currentPos;
 			
 			thisComponent.scrollTo(moveTo, 0);
 
@@ -219,6 +241,7 @@ function ImgSlider({imgs}){
 			}
 		}, interval);
 
+		// eslint-disable-next-line
 		function easeInOutCubic(t){
 			if (t < 0.5){
 				return 4 * t * t * t;
@@ -226,6 +249,12 @@ function ImgSlider({imgs}){
 				const f =((2 * t) - 2);
 				return 0.5 * f * f * f + 1;
 			}
+		}
+
+		function easeOut(t){
+			// y = 1 - (1 - x)^3
+			const f = 1 - t;
+			return 1 - (f * f * f);
 		}
 
 		function normalized(x, min, max){
@@ -236,6 +265,8 @@ function ImgSlider({imgs}){
 
 	// eslint-disable-next-line
 	function getClosestIndex(x){
+		// Parameter:
+		// x - scrollLeft value
 		let buffer = null;
 		let closestIndex = null;
 		for (let i = 0; i < imgsViewPos.length; i++) {
