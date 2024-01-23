@@ -7,8 +7,6 @@ import sliderImg2 from '../assets/scroll_imgs/0050.webp';
 // eslint-disable-next-line
 import sliderImg3 from '../assets/scroll_imgs/0050.webp';
 
-import TrackScrollSpeed from '../utils/Scrolling';
-
 export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
 	const [elementsOpacity, setElementsOpacity] = useState({
@@ -121,157 +119,30 @@ function IconDetail({ icon, subtext }) {
 }
 
 function ImgSlider({imgs}){
-	// eslint-disable-next-line
 	const imgWidth = 500;
-	let scrollInterpolation;
-	// eslint-disable-next-line
 	const imgsViewPos = [];
 	const vw = window.innerWidth;
-	let thisComponent;
-	let scrollSpeed; // Time interval var
-	let scrollDetection; // time interval var
-	
-	// Flags
-	let userScrolling = false;
-	// eslint-disable-next-line
-	let scrolling = false;
-	// eslint-disable-next-line
-	let snapped = false;
-	let scrollFrom;
-	let trackSCrollSPeed;
 
- 
 	// Initialize event listeners
 	useEffect(()=>{
-		thisComponent = window.document.querySelector('.slider-img-cont');
-		trackSCrollSPeed = new TrackScrollSpeed(thisComponent);
-
-		thisComponent.addEventListener('touchstart', ()=>{
-			userScrolling = true;
-			interuptScrollAnim();
-			snapped = false;
-			scrollFrom = getClosestIndex(thisComponent.scrollLeft);
-
-			function someFunc(speed){
-
-				if (scrollFrom != getClosestIndex(thisComponent.scrollLeft)){
-					if (!snapped && !userScrolling){
-						scrollToIndex();
-						snapped = true;
-					}
-				}
-				
-				else if (speed < 200 && !snapped && !userScrolling){
-					snapped = true;
-					scrollToIndex();
-				}
-			}
-
-			trackSCrollSPeed.start(someFunc);
-		});
-
-		thisComponent.addEventListener('touchend', () => {
-			userScrolling = false;
-			window.clearInterval(scrollSpeed);
-		});
-
-		thisComponent.addEventListener('scroll', ()=>{
-			window.clearTimeout(scrollDetection);
-			scrolling = true;
-
-			scrollDetection = setTimeout(()=>{
-				scrolling = false;
-			}, 66);
-		});
-
 		for (let i = 0; i < imgs.length; i++) {
 			imgsViewPos.push((imgWidth * i) + ((imgWidth - vw) / 2));
 		}
 	},[]);
 
 
-	function interuptScrollAnim(){
-		window.clearInterval(scrollInterpolation);
-		thisComponent.scrollTo(thisComponent.scrollLeft, 0);
-	}
-
-
-	// eslint-disable-next-line
-	function scrollToIndex(){
-		console.log('called');
-		const x = thisComponent.scrollLeft;
-		const toIndex = getClosestIndex(x);
-
-		const targetPos = (imgWidth * toIndex) + ((imgWidth - vw) / 2);
-		const currentPos = thisComponent.scrollLeft;
-
-		// Ease interpolation
-		// f(t) = 3 * t^2 * (1 - t) + 3 * t * (1 - t)^2 + (1 - t)^3
-		const time = 1000; //
-		let accu = 0;
-		const interval = time/60; // 60 fps
-		scrollInterpolation = setInterval(()=>{
-			accu += interval;
-
-			const moveTo = easeOut(normalized(accu, 0, time)) * (targetPos - currentPos) + currentPos;
-			
-			thisComponent.scrollTo(moveTo, 0);
-
-			if (accu >= time){
-				window.clearInterval(scrollInterpolation);
-				thisComponent.scrollTo(thisComponent.scrollLeft, 0);
-			}
-		}, interval);
-
-		// eslint-disable-next-line
-		function easeInOutCubic(t){
-			if (t < 0.5){
-				return 4 * t * t * t;
-			} else {
-				const f =((2 * t) - 2);
-				return 0.5 * f * f * f + 1;
-			}
-		}
-
-		function easeOut(t){
-			// y = 1 - (1 - x)^3
-			const f = 1 - t;
-			return 1 - (f * f * f);
-		}
-
-		function normalized(x, min, max){
-			return (x-min)/(max-min);
-		}
-	}
-
-
-	// eslint-disable-next-line
-	function getClosestIndex(x){
-		// Parameter:
-		// x - scrollLeft value
-		let buffer = null;
-		let closestIndex = null;
-		for (let i = 0; i < imgsViewPos.length; i++) {
-			const d = Math.abs(x - imgsViewPos[i]);
-			if (!buffer || buffer > d){
-				closestIndex = i;
-				buffer = d;
-			}
-		}
-
-		return closestIndex;
-	}
-
 	return <div className="slider-img-cont" style={{
 		display: 'flex',
 		flexDirection: 'row',
 		overflow: 'auto',
 		width: '100vw',
-		pointerEvents: 'auto'
+		pointerEvents: 'auto',
+		scrollSnapType: 'x mandatory'
 	}}>
 		{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
-			width: `${imgWidth}px`,
+			width: '130vw',
 			pointerEvents: 'none',
+			scrollSnapAlign: 'center',
 		}} />)}
 	</div>;
 }
