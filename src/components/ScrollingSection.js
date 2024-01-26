@@ -17,13 +17,14 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 
 	// eslint-disable-next-line
 	const [selectedIndicator, setSelectedIndicator] = useState(0);
-	// eslint-disable-next-line
 
 	const scrollXImages = [
 		scrollImgs[imgIndex],
 		sliderImg1,
 		sliderImg2
 	];
+
+	const [clickedIndicator, setClickedIndicator] = useState(false); // Conditional flag for swiping images to X direction to prevent unintended feedback loop of parents selectedIndex state var
 
 	// Initialization
 	useEffect(() => {
@@ -49,7 +50,7 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	function handleIndicatorButtonClick(toIndex){
 		// Update indicator colors
 		setSelectedIndicator(toIndex);
-		
+		setClickedIndicator(true);
 	}
 
 	function handleUpdateScrollIndex(toIndex){
@@ -101,6 +102,8 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 				<ImgSlider imgs={scrollXImages} 
 					selectedIndex={selectedIndicator}
 					scrollListener={handleUpdateScrollIndex}
+					clickedIndicator={clickedIndicator}
+					setClickedIndicator={setClickedIndicator}
 				/>
 
 				<div className='imgs-indicator-cont' >
@@ -149,8 +152,7 @@ function IconDetail({ icon, subtext }) {
 	);
 }
 
-function ImgSlider({imgs, selectedIndex, scrollListener}){
-
+function ImgSlider({imgs, selectedIndex, clickedIndicator, setClickedIndicator}){
 	const imgWidth = 500;
 	const vw = window.innerWidth;
 
@@ -159,8 +161,9 @@ function ImgSlider({imgs, selectedIndex, scrollListener}){
 
 	let selectedImg;
 
+
 	// eslint-disable-next-line
-	async function startIndexListener(){
+	async function startIndexListener(thisComponent){
 		while (listening){
 			await new Promise((resolve)=>{
 				setTimeout(()=>{
@@ -168,18 +171,26 @@ function ImgSlider({imgs, selectedIndex, scrollListener}){
 				}, 200);
 			});
 
-			getClosestIndex();
+			console.log(`${getClosestIndex(thisComponent)}`);
 		}
 	}
 
 	// Initialize event listeners
 	useEffect(()=>{
-
+		listening = true;
+		const thisComponent = document.querySelector('.slider-img-cont');
+		startIndexListener(thisComponent);
 	},[]);
 
 	useEffect(()=>{
 		console.log(`should change the viewing img to ${selectedIndex}`);
-		scrollTo(selectedIndex);
+		if (clickedIndicator){
+			scrollTo(selectedIndex);
+		}
+
+		setClickedIndicator(false);
+		console.log('should update the indicator');
+
 	},[selectedIndex]);
 
 	function getViewPositions(){
@@ -192,7 +203,7 @@ function ImgSlider({imgs, selectedIndex, scrollListener}){
 		return imgsViewPos;
 	}
 
-	function getClosestIndex(){
+	function getClosestIndex(thisComponent){
 		let closestIndex;
 		let shortestDistance;
 
@@ -208,7 +219,7 @@ function ImgSlider({imgs, selectedIndex, scrollListener}){
 
 		if (selectedImg != closestIndex){
 			selectedImg = closestIndex;
-			scrollListener(closestIndex);
+			return closestIndex;
 		}
 	}
 
