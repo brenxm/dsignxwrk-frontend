@@ -15,6 +15,16 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 		detailContainer: '0',
 	});
 
+	// eslint-disable-next-line
+	const [selectedIndicator, setSelectedIndicator] = useState(0);
+	// eslint-disable-next-line
+
+	const scrollXImages = [
+		scrollImgs[imgIndex],
+		sliderImg1,
+		sliderImg2
+	];
+
 	// Initialization
 	useEffect(() => {
 		loadScrollImgs(50).then((modules) => {
@@ -31,11 +41,22 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 		}
 	}, [appScrollPos]);
 
+	/* Two types of browsing the imgs with scrolling X
+		1. clicking the indicator (gray buttons)
+		2. scrolling to x
+	*/
+
+	function handleIndicatorButtonClick(toIndex){
+		// Update indicator colors
+		setSelectedIndicator(toIndex);
+		
+	}
+
+	function handleUpdateScrollIndex(toIndex){
+		setSelectedIndicator(toIndex);
+	}
+
 	function loadScrollImgs(numOfImgs) {
-		// Load all images in a specified file
-		// Param
-		// scrollImgs (Array)
-		// -> None
 		const images = [];
 
 		for (let i = 1; i <= numOfImgs; i++) {
@@ -77,11 +98,21 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 				>
                The Macro Board
 				</h2>
-				<ImgSlider imgs={[
-					scrollImgs[imgIndex],
-					sliderImg1,
-					sliderImg2
-				]}/>
+				<ImgSlider imgs={scrollXImages} 
+					selectedIndex={selectedIndicator}
+					scrollListener={handleUpdateScrollIndex}
+				/>
+
+				<div className='imgs-indicator-cont' >
+					{scrollXImages.map((img, i) => {
+						return <div key={i}
+							style={{ backgroundColor: selectedIndicator == i ? 'gray' : 'rgba(0,0,0,0.3)' }}
+							onClick={()=>{handleIndicatorButtonClick(i);}}
+							
+						></div>;
+					})}
+					
+				</div>
 				<p
 					style={{
 						opacity: elementsOpacity.subtext,
@@ -118,31 +149,81 @@ function IconDetail({ icon, subtext }) {
 	);
 }
 
-function ImgSlider({imgs}){
+function ImgSlider({imgs, selectedIndex, scrollListener}){
+
 	const imgWidth = 500;
-	const imgsViewPos = [];
 	const vw = window.innerWidth;
+
+	let listening = false;
+	let thisComponent;
+
+	let selectedImg;
+
+	// eslint-disable-next-line
+	async function startIndexListener(){
+		while (listening){
+			await new Promise((resolve)=>{
+				setTimeout(()=>{
+					resolve();
+				}, 200);
+			});
+
+			getClosestIndex();
+		}
+	}
 
 	// Initialize event listeners
 	useEffect(()=>{
+
+	},[]);
+
+	useEffect(()=>{
+		console.log(`should change the viewing img to ${selectedIndex}`);
+		scrollTo(selectedIndex);
+	},[selectedIndex]);
+
+	function getViewPositions(){
+		const imgsViewPos = [];
+
 		for (let i = 0; i < imgs.length; i++) {
 			imgsViewPos.push((imgWidth * i) + ((imgWidth - vw) / 2));
 		}
-	},[]);
+
+		return imgsViewPos;
+	}
+
+	function getClosestIndex(){
+		let closestIndex;
+		let shortestDistance;
+
+		let imgsViewPos = getViewPositions();
+
+		for (let i = 0; i < imgsViewPos.length; i++){
+			const d = Math.abs(imgsViewPos[i] - thisComponent.scrollLeft);
+			if (shortestDistance == undefined || d < shortestDistance){
+				shortestDistance = d;
+				closestIndex = i;
+			}
+		}
+
+		if (selectedImg != closestIndex){
+			selectedImg = closestIndex;
+			scrollListener(closestIndex);
+		}
+	}
+
+	function scrollTo(index) {
+		thisComponent = document.querySelector('.slider-img-cont');
+		console.log(`Should move to ${getViewPositions()[index]}`);
+		thisComponent.scrollTo({
+			left: getViewPositions()[index],
+			behavior: 'smooth'
+		});
+	}
 
 
 	return <div className="slider-img-cont" style={{
-		display: 'flex',
-		flexDirection: 'row',
-		overflow: 'auto',
-		width: '100vw',
-		pointerEvents: 'auto',
-		scrollSnapType: 'x mandatory'
 	}}>
-		{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
-			width: '130vw',
-			pointerEvents: 'none',
-			scrollSnapAlign: 'center',
-		}} />)}
+		{imgs.map((img, i) => <img id='img-cont' src={img} key={i} />)}
 	</div>;
 }
