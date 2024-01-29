@@ -322,7 +322,7 @@ body {
       }
    }
 
-   .imgs-indicator-cont {
+   .pagination-cont {
       display: flex;
       flex-direction: row;
       width: 100vw;
@@ -332,10 +332,10 @@ body {
       top: -90px;
 
       > div {
-         background-color: gray;
          border-radius: 50%;
          height: 10px;
          width: 10px;
+         transition: none;
 
       }
    }

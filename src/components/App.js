@@ -10,7 +10,7 @@ export default function App() {
 	const [scrollImgIndex, setScrollImgIndex] = useState(0);
 	const [scrollingSectionHeight, setScrollingSectionHeight] = useState('0');
 	const [appScrollY, setAppScrollY] = useState(0);
-
+	
 	useEffect(() => {
 		const scrollStart = 600;
 		const scrollEnd = 2100;
@@ -23,6 +23,9 @@ export default function App() {
 		setScrollingSectionHeight(
 			`calc(${IMG_COUNT * scrollFramePerImage}px + 100vh)`
 		);
+
+		disableScroll();
+
 		window.addEventListener('scroll', () => {
 			setAppScrollY(window.scrollY);
 
@@ -38,6 +41,15 @@ export default function App() {
 			}
 		});
 	}, []);
+
+	function disableScroll() {
+		window.addEventListener('scroll', preventScroll, {passive: false});
+	}
+
+	function preventScroll(e){
+		e.preventDefault();
+		e.stopPropagation();
+	}
 
 	return (
 		<>
