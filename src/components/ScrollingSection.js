@@ -16,10 +16,14 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	});
 
 	const scrollXImages = [
-		scrollImgs[imgIndex],
+		scrollImgs[imgIndex > 50 ? 0 : imgIndex - 1],
 		sliderImg1,
 		sliderImg2
 	];
+
+	useEffect(()=>{
+		console.log(imgIndex + 1);
+	},[imgIndex]);
 
 	// Initialization
 	useEffect(() => {
@@ -31,7 +35,7 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 
 	useEffect(() => {
 		// Toggle render for the elements except for the animation
-		if (appScrollPos >= 2100) {
+		if (appScrollPos >= 2000) {
 			showElements();
 		} else {
 			hideElements();
@@ -180,13 +184,13 @@ function ImgSlider({imgs, scrollYPos}){
 	}}>
 		<div className='slider-img-cont'>
 			{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
-				display: scrollYPos > 2100 || i == 0 ? 'block' : 'none'
+				display: scrollYPos >= 2000 || i == 0 ? 'block' : 'none'
 			}}/>)}
 		</div>
 		<div className='pagination-cont'>
 			{imgs.map((img, i) => <div key={i} style={{
 				backgroundColor: selectedPaginationIndex == i ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.2)',
-				display: scrollYPos > 2100 ? 'block' : 'none'
+				display: scrollYPos >= 2000 ? 'block' : 'none'
 			}}
 			onClick={()=>{
 				scrollTo(i);

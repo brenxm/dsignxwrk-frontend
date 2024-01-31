@@ -291,6 +291,22 @@ body {
          }
       }
    }
+
+   #home-section-macroboard-title-cont{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+      position: absolute;
+      top: 320px;
+      left: 50px;
+      font-size: 20px;
+
+      p {
+         font-size: 18px;
+      }
+
+   }  
 }
 
 /* Scroll Anim Section */
