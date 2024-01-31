@@ -7,6 +7,8 @@ import sliderImg2 from '../assets/scroll_imgs/0050.webp';
 // eslint-disable-next-line
 import sliderImg3 from '../assets/scroll_imgs/0050.webp';
 
+import placeholderImg from '../assets/placeholder.png';
+
 export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
 	const [elementsOpacity, setElementsOpacity] = useState({
@@ -104,12 +106,12 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 					opacity: elementsOpacity.detailContainer,
 				}}
 			>
-				<IconDetail icon={'heh'} subtext="Hotswap module" />
-				<IconDetail icon={'heh'} subtext="Modular approach" />
-				<IconDetail icon={'heh'} subtext="Tactile key response" />
-				<IconDetail icon={'heh'} subtext="Mac and Windows" />
-				<IconDetail icon={'heh'} subtext="1000hz polling rate" />
-				<IconDetail icon={'heh'} subtext="CNC Aluminum body" />
+				<IconDetail icon={placeholderImg} subtext="Hotswap module" />
+				<IconDetail icon={placeholderImg} subtext="Modular approach" />
+				<IconDetail icon={placeholderImg} subtext="Tactile key response" />
+				<IconDetail icon={placeholderImg} subtext="Mac and Windows" />
+				<IconDetail icon={placeholderImg} subtext="1000hz polling rate" />
+				<IconDetail icon={placeholderImg} subtext="CNC Aluminum body" />
 			</div>
 		</div>
 	);
