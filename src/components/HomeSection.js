@@ -14,24 +14,29 @@ export default function HomeSection() {
 		const currentPos = window.scrollY;
 		const dist = Math.abs(yPos - currentPos);
 		const fps = 200;
+		let scrollInterupted = false;
 
+		const interuptListener = window.addEventListener('touchstart', interuptScroll);
 		const distPerFrame = dist/fps;
-
 		let increment = window.scrollY;
 
 		const move = () => {
 			increment += distPerFrame;
 			const moveIncrement = smoothAnim(normalize(increment, currentPos, yPos)) * yPos;
 
-			console.log(moveIncrement);
-
 			window.scrollTo(0, moveIncrement);
-			if (window.scrollY < yPos){
+			if (window.scrollY < yPos && !scrollInterupted){
 				requestAnimationFrame(move);
 			}
 		};
 
 		requestAnimationFrame(move);
+
+		// eslint-disable-next-line
+		function interuptScroll () {
+			scrollInterupted = true;
+			window.removeEventListener(interuptListener, interuptScroll);
+		}
 
 		const smoothAnim = (x) => {
 			// Smooth 
