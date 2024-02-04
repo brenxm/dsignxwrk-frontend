@@ -20,12 +20,11 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 	const scrollXImages = [
 		scrollImgs[imgIndex > 50 ? 0 : imgIndex - 1],
 		sliderImg1,
-		sliderImg2
+		sliderImg2,
 	];
 
-	useEffect(()=>{
-		console.log(imgIndex + 1);
-	},[imgIndex]);
+	useEffect(() => {
+	}, [imgIndex]);
 
 	// Initialization
 	useEffect(() => {
@@ -44,12 +43,11 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 		}
 	}, [appScrollPos]);
 
-
 	function loadScrollImgs(numOfImgs) {
 		const images = [];
 
 		for (let i = 1; i <= numOfImgs; i++) {
-			const prefixNum = i - 10 >= 0 ? i : `0${i}`; //Prefix handling
+			const prefixNum = i - 10 >= 0 ? i : `0${i}`; //Prefix handling - checking if in tens or ones places
 			images.push(import(`../assets/scroll_imgs/00${prefixNum}.webp`));
 		}
 		return Promise.all(images);
@@ -87,9 +85,7 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 				>
                The Macro Board
 				</h2>
-				<ImgSlider imgs={scrollXImages}
-					scrollYPos={appScrollPos} 
-				/>
+				<ImgSlider imgs={scrollXImages} scrollYPos={appScrollPos} />
 				<p
 					style={{
 						opacity: elementsOpacity.subtext,
@@ -126,16 +122,16 @@ function IconDetail({ icon, subtext }) {
 	);
 }
 
-function ImgSlider({imgs, scrollYPos}){
+function ImgSlider({ imgs, scrollYPos }) {
 	const imgWidth = 500;
 	const vw = window.innerWidth;
 	let thisComponent;
 	const [selectedPaginationIndex, SetSelectedPaginationIndex] = useState(0);
 
-	useEffect(()=>{
+	useEffect(() => {
 		const thisComponent = document.querySelector('.slider-img-cont');
-		
-		thisComponent.addEventListener('scroll', ()=>{
+
+		thisComponent.addEventListener('scroll', () => {
 			const imgElemWidth = thisComponent.scrollWidth / imgs.length;
 			const currentPos = thisComponent.scrollLeft;
 			const viewingPosIndicators = [];
@@ -146,13 +142,13 @@ function ImgSlider({imgs, scrollYPos}){
 			const index = getClosestValueIndex(currentPos, viewingPosIndicators);
 			SetSelectedPaginationIndex(index);
 		});
-	},[]);
+	}, []);
 
 	function scrollTo(index) {
 		thisComponent = document.querySelector('.slider-img-cont');
 		thisComponent.scrollTo({
 			left: getViewPositions()[index],
-			behavior: 'smooth'
+			behavior: 'smooth',
 		});
 	}
 
@@ -160,20 +156,20 @@ function ImgSlider({imgs, scrollYPos}){
 		const imgsViewPos = [];
 
 		for (let i = 0; i < imgs.length; i++) {
-			imgsViewPos.push((imgWidth * i) + ((imgWidth - vw) / 2));
+			imgsViewPos.push(imgWidth * i + (imgWidth - vw) / 2);
 		}
 
 		return imgsViewPos;
 	}
 
-	function getClosestValueIndex(x, values){
+	function getClosestValueIndex(x, values) {
 		let closestDistance;
 		let closestIndex;
 
-		for (let i = 0; i < values.length; i++){
+		for (let i = 0; i < values.length; i++) {
 			const dif = Math.abs(values[i] - x);
 
-			if (closestDistance == undefined || dif < closestDistance){
+			if (closestDistance == undefined || dif < closestDistance) {
 				closestDistance = dif;
 				closestIndex = i;
 			}
@@ -182,22 +178,35 @@ function ImgSlider({imgs, scrollYPos}){
 		return closestIndex;
 	}
 
-	return <div className="carousel-viewer-cont" style={{
-	}}>
-		<div className='slider-img-cont'>
-			{imgs.map((img, i) => <img id='img-cont' src={img} key={i} style={{
-				display: scrollYPos >= 2000 || i == 0 ? 'block' : 'none'
-			}}/>)}
+	return (
+		<div className="carousel-viewer-cont" style={{}}>
+			<div className="slider-img-cont">
+				{imgs.map((img, i) => (
+					<img
+						id="img-cont"
+						src={img}
+						key={i}
+						style={{
+							display: scrollYPos >= 2000 || i == 0 ? 'block' : 'none',
+						}}
+					/>
+				))}
+			</div>
+			<div className="pagination-cont">
+				{imgs.map((img, i) => (
+					<div
+						key={i}
+						style={{
+							backgroundColor:
+                        selectedPaginationIndex == i ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.2)',
+							display: scrollYPos >= 2000 ? 'block' : 'none',
+						}}
+						onClick={() => {
+							scrollTo(i);
+						}}
+					></div>
+				))}
+			</div>
 		</div>
-		<div className='pagination-cont'>
-			{imgs.map((img, i) => <div key={i} style={{
-				backgroundColor: selectedPaginationIndex == i ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.2)',
-				display: scrollYPos >= 2000 ? 'block' : 'none'
-			}}
-			onClick={()=>{
-				scrollTo(i);
-			}}
-			></div>)}
-		</div>
-	</div>;
+	);
 }

@@ -292,7 +292,7 @@ body {
       }
    }
 
-   #home-section-macroboard-title-cont{
+   #home-section-macroboard-title-cont {
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -305,8 +305,7 @@ body {
       p {
          font-size: 18px;
       }
-
-   }  
+   }
 }
 
 /* Scroll Anim Section */
@@ -325,7 +324,7 @@ body {
    }
 
    .slider-img-cont {
-      display:flex;
+      display: flex;
       flex-direction: row;
       overflow: auto;
       width: 100vw;
@@ -352,11 +351,8 @@ body {
          height: 10px;
          width: 10px;
          transition: none;
-
       }
    }
-
-   
 
    p {
       text-align: center;
@@ -421,7 +417,6 @@ body {
             height: 100%;
          }
       }
-
    }
 
    #display-image-cont {
@@ -446,14 +441,57 @@ body {
       }
 
       .subtext {
-
       }
    }
 }
 
 /* Software Section */
 .software-section {
-   background-color: green;
    width: 100vw;
-   height: 750px;
+   min-height: 100vh;
+   background-color: white;
+   padding: 40px 10px 40px 10px;
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+
+   #software-section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      #software-section-title {
+         font-size: 30px;
+         text-align: center;
+      }
+
+      #software-section-title-subtext {
+
+      }
+   }
+
+   #software-section-features-cont {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .software-feature-cont {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+      
+            #software-feature-title {
+               width: 100%;
+               font-size: 25px;
+      
+            }
+      
+            #software-feature-display-img {
+               width: 100%;
+            }
+      
+            #software-feature-subtext {}
+         }
+   }
 }

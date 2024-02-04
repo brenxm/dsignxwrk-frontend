@@ -6,9 +6,6 @@ import imgSlider3 from '../assets/slider_3.webp';
 import imgSlider4 from '../assets/slider_4.webp';
 
 export default function HomeSection() {
-
-
-
 	// Scroll animation
 	const smoothScrollTo = (yPos) => {
 		const currentPos = window.scrollY;
@@ -16,16 +13,20 @@ export default function HomeSection() {
 		const fps = 200;
 		let scrollInterupted = false;
 
-		const interuptListener = window.addEventListener('touchstart', interuptScroll);
-		const distPerFrame = dist/fps;
+		const interuptListener = window.addEventListener(
+			'touchstart',
+			interuptScroll
+		);
+		const distPerFrame = dist / fps;
 		let increment = window.scrollY;
 
 		const move = () => {
 			increment += distPerFrame;
-			const moveIncrement = smoothAnim(normalize(increment, currentPos, yPos)) * yPos;
+			const moveIncrement =
+            smoothAnim(normalize(increment, currentPos, yPos)) * yPos;
 
 			window.scrollTo(0, moveIncrement);
-			if (window.scrollY < yPos && !scrollInterupted){
+			if (window.scrollY < yPos && !scrollInterupted) {
 				requestAnimationFrame(move);
 			}
 		};
@@ -33,36 +34,35 @@ export default function HomeSection() {
 		requestAnimationFrame(move);
 
 		// eslint-disable-next-line
-		function interuptScroll () {
+      function interuptScroll() {
 			scrollInterupted = true;
 			window.removeEventListener(interuptListener, interuptScroll);
 		}
 
 		const smoothAnim = (x) => {
-			// Smooth 
+			// Smooth
 			return Math.pow(x, 0.5);
 		};
 
 		// eslint-disable-next-line
-		const easeInOut = (x) => {
+      const easeInOut = (x) => {
 			// x as normalized distance from current pos to target pos
-			if (x < 0.5){
+			if (x < 0.5) {
 				return 4 * x * x * x;
 			} else {
-				return 1 - ((1 - x) * (1 - x) * (1 - x) * 4);
+				return 1 - (1 - x) * (1 - x) * (1 - x) * 4;
 			}
 		};
 
 		// easeout
 		// eslint-disable-next-line
-		const easeOut = (x) => {
+      const easeOut = (x) => {
 			return 1 - (1 - x) * (1 - x) * (1 - x);
 		};
 
 		const normalize = (x, min, max) => {
 			return (x - min) / (max - min);
 		};
-
 	};
 
 	return (
@@ -88,14 +88,13 @@ export default function HomeSection() {
 					<SliderEffect scrImg={imgSlider1} />
 				</div>
 			</div>
-			<div id='home-section-macroboard-title-cont'
-				onClick={()=>{
+			<div
+				id="home-section-macroboard-title-cont"
+				onClick={() => {
 					smoothScrollTo(2100);
 				}}
 			>
-				<h3>
-					Macro Board
-				</h3>
+				<h3>Macro Board</h3>
 				<p>
 					<b>[</b>Explore more<b>]</b>
 				</p>

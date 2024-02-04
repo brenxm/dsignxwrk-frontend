@@ -5,12 +5,13 @@ import ModuleSection from './ModulesSection';
 import SoftwareSection from './SoftwareSection';
 import mainLogo from '../assets/nav_buttons/main_logo.png';
 import { useState, useEffect } from 'react';
+import data from '../../public/main.json';
 
 export default function App() {
 	const [scrollImgIndex, setScrollImgIndex] = useState(0);
 	const [scrollingSectionHeight, setScrollingSectionHeight] = useState('0');
 	const [appScrollY, setAppScrollY] = useState(0);
-	
+
 	useEffect(() => {
 		const scrollStart = 600;
 		const scrollEnd = 2100;
@@ -36,17 +37,17 @@ export default function App() {
                START_IMG_INDEX;
 
 				setScrollImgIndex(Math.floor(imgIndex) - 1);
-			} else if (window.scrollY >= scrollEnd){
+			} else if (window.scrollY >= scrollEnd) {
 				setScrollImgIndex(IMG_COUNT - 1);
 			}
 		});
 	}, []);
 
 	function disableScroll() {
-		window.addEventListener('scroll', preventScroll, {passive: false});
+		window.addEventListener('scroll', preventScroll, { passive: false });
 	}
 
-	function preventScroll(e){
+	function preventScroll(e) {
 		e.preventDefault();
 		e.stopPropagation();
 	}
@@ -61,7 +62,7 @@ export default function App() {
 				appScrollPos={appScrollY}
 			/>
 			<ModuleSection />
-			<SoftwareSection />
+			<SoftwareSection title={'Software'} titleSubText={data.software}/>
 		</>
 	);
 }
