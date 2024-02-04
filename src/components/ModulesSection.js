@@ -52,6 +52,7 @@ export default function ModuleSection() {
 		<div id='module-section-page-title-cont'>
 			Modules
 		</div>
+
 		<div id="pagination-icon-cont">
 			{moduleElements.map((element, i)=>
 				<Paginationicons key={i} 
@@ -62,9 +63,11 @@ export default function ModuleSection() {
 						setSelectedIconIndex(i);}}/>
 			)}
 		</div>
+
 		<div id='display-image-cont'>
 			<img src={moduleElements[selectedIconIndex].displayImage}/>
 		</div>
+		
 		<div id='title-and-text-cont'>
 			<p className='title'>
 				{moduleElements[selectedIconIndex].title}
