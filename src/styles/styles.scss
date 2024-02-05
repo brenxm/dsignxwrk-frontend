@@ -387,9 +387,9 @@ body {
 
 /* Module Section */
 #module-section {
-   background-color: blue;
    width: 100vw;
    min-height: 100vh;
+   background-color: white;
 
    #module-section-page-title-cont {
       font-size: 30px;
@@ -399,8 +399,7 @@ body {
    }
 
    #pagination-icon-cont {
-      height: 120px;
-      background-color: red;
+      height: 200px;
       display: flex;
       padding: 0 10px;
       align-items: center;
@@ -408,20 +407,38 @@ body {
       overflow-y: hidden;
 
       .module-section-pagination-icon-cont {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
          height: 100px;
          width: 100px;
-         background-color: white;
          position: relative;
 
+         #pagination-selected-indicator {
+            position: absolute;
+            height: 100%;
+            width: 85%;
+            z-index: -1;
+            background: linear-gradient(rgba(0,0,100,0.1), transparent);
+            border: solid 2px white;
+            border-radius: 10px;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+         }
+
+        
          > img {
             height: 100%;
+         }
+
+         #pagination-icon-title {
+            font-size: 13px;
+            text-align: center;
          }
       }
    }
 
    #display-image-cont {
       height: 400px;
-      background-color: gray;
       display: flex;
       align-items: center;
       justify-content: center;

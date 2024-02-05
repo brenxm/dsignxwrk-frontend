@@ -1,0 +1,25 @@
+[
+    {
+        "title": "Aluminum frame",
+        "img": "hammer"
+    },
+    {
+        "title": "Modular",
+        "img": "modular"
+    },
+    {
+        "title": "Windows and Mac",
+        "img": "os"
+    },
+    {
+        "title": "1000hz polling rate",
+        "img": "lightning"
+    },{
+        "title": "Hot-swappable",
+        "img": "hotswap"
+    },
+    {
+        "title": "Tactile",
+        "img": "tactile"
+    }
+]

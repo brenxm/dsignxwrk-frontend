@@ -1,31 +1,43 @@
-{
-   "oled button module": {
+[
+    {
+    "title": "Oled button module",
       "subtext": "Elevate your tactile experience with our OLED Button Module, this module features an OLED screen for dynamic visual feedback and is equipped with our custom tactile switch for a responsive feel. It's ideal for users who want immediate visual confirmation of their actions, such as changing tools or activating commands in various software.",
-      "img": ""
+      "paginationImg": "oled",
+      "displayImg": "oled"
    },
-
-   "eink button module": {
+   {
+    "title": "E-ink button module",
       "subtext": "Discover the blend of technology and readability with our EInk Button Key. Like its OLED counterpart, it offers a unique tactile experience with the added benefit of an EInk display, providing clear visibility and lower power consumption, perfect for sustained use in any setting.",
-      "img": ""
-   },
-   "touch strip": {
+      "paginationImg": "eink",
+      "displayImg": "eink"
+   },{
+    "title": "Touch strip module",
       "subtext": "The Touch Strip module introduces an innovative way to input with a capacitive touch interface. Perfect for precise adjustments or quick scrolling, this strip allows for seamless slider controls at your fingertips, enhancing your efficiency and control over your tasks.",
-      "img": ""
+      "paginationImg": "touch_strip",
+      "displayImg": "touch_strip"
    },
-   "standard button": {
+   {
+    "title": "Standard button",
       "subtext": "Our Standard Button Key offers simplicity and elegance in both black and white options. Designed for those who appreciate minimalism without compromising on functionality, these keys provide a reliable and classic tactile response for everyday use.",
-      "img": ""
+      "paginationImg": "standard_key",
+      "displayImg": "standard_key"
    },
-   "horizontal rotatry knob": {
+   {
+    "title": "Horizontal knob module",
       "subtext": "Our Horizontal Rotary Knob module is designed for intuitive and smooth rotation, offering precise control over your adjustments. Whether you're fine-tuning settings or scrolling through options, this knob provides a tactile and responsive interface for a wide range of applications",
-      "img": ""
+      "paginationImg": "horizontal_knob",
+      "displayImg": "horizontal_rotary"
    },
-   "vertical rotary knob": {
+   {
+    "title": "Vertical knob module",
       "subtext": "Experience the versatility of our Vertical Rotary Knob, offering the same precise control and tactile feedback as its horizontal counterpart, but in a vertical orientation. This module is perfect for users who prefer a different angle of interaction, without sacrificing precision or comfort.",
-      "img": ""
+      "paginationImg": "vertical_knob",
+      "displayImg": "vertical_rotary"
    },
-   "space stick": {
+   {
+    "title": "Space stick module",
       "subtext": "Our Space Stick module transforms your interaction with digital environments, offering intuitive control over three-dimensional spaces. Designed for precision and ease, this innovative tool is indispensable for designers, engineers, and anyone looking to navigate or manipulate 3D models with unmatched accuracy and fluidity, all within a compact, modular format.",
-      "img": ""
+      "paginationImg": "space_mouse",
+      "displayImg": "space_mouse"
    }
-}
+]

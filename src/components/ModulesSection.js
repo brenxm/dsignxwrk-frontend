@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+// eslint-disable-next-line
+import loadImagesFromPublic from '../utils/loadImagesFromPublic';
 
-import placeholderImg from '../assets/placeholder.png';
+import rawModuleData from '../../public/modules.json';
 
 export default function ModuleSection() {
 	// Follow schematic for adding a module element in the list
@@ -11,54 +13,39 @@ export default function ModuleSection() {
 	// 4. subtext
 
 	const [selectedIconIndex, setSelectedIconIndex] = useState(0);
+	// eslint-disable-next-line
+	const [moduleData, setModuleData] = useState(rawModuleData)
+	// eslint-disable-next-line
+	const [paginationImgs, setPaginationImgs] = useState([]);
+	// eslint-disable-next-line
+	const [displayImgs, setDisplayImgs] = useState([]);
 
-	const moduleElements = [
-		{
-			icon: placeholderImg,
-			displayImage: placeholderImg,
-			title: 'Oled key module',
-			subText:
-            'Oled key, state of the art screen with deep blacks and unbelievable contrast that delivers unmatch screen clarity. What can I say, the best screen for monitors now made as key switch',
-		},
-		{
-			icon: placeholderImg,
-			displayImage: placeholderImg,
-			title: 'E-ink key module',
-			subText:
-            'Einkk key, state of the art screen with deep blacks and unbelievable contrast that delivers unmatch screen clarity. What can I say, the best screen for monitors now made as key switch dfhjdkf sdhfsjdfg sdf',
-		},
-		{
-			icon: placeholderImg,
-			displayImage: placeholderImg,
-			title: 'Oled key module',
-			subText:
-            'Oled key, state of the art screen with deep blacks and unbelievable contrast that delivers unmatch screen clarity. What can I say, the best screen for monitors now made as key switch',
-		},
-		{
-			icon: placeholderImg,
-			displayImage: placeholderImg,
-			title: 'E-ink key module',
-			subText:
-            'Einkk key, state of the art screen with deep blacks and unbelievable contrast that delivers unmatch screen clarity. What can I say, the best screen for monitors now made as key switch dfhjdkf sdhfsjdfg sdf',
-		},
-		{
-			icon: placeholderImg,
-			displayImage: placeholderImg,
-			title: 'Oled key module',
-			subText:
-            'Oled key, state of the art screen with deep blacks and unbelievable contrast that delivers unmatch screen clarity. What can I say, the best screen for monitors now made as key switch',
-		},
-	];
+
+	useState(()=>{
+		const paginationImgsPaths = rawModuleData.map((value)=> `module_pagination_icons/${value.paginationImg}.svg`);
+		console.log(paginationImgsPaths);
+		loadImagesFromPublic(paginationImgsPaths).then((modules)=>{
+			const loadedImages = modules.map((module) => module.default);
+			setPaginationImgs(loadedImages);
+		});
+
+		const displayImgsPaths = rawModuleData.map((value)=> `module_imgs/${value.displayImg}.webp`);
+		loadImagesFromPublic(displayImgsPaths).then((modules)=>{
+			const loadedImages = modules.map((module) => module.default);
+			setDisplayImgs(loadedImages);
+		});
+	},[]);
 
 	return (
 		<div id="module-section">
 			<div id="module-section-page-title-cont">Modules</div>
 
 			<div id="pagination-icon-cont">
-				{moduleElements.map((element, i) => (
+				{moduleData.map((element, i) => (
 					<Paginationicons
 						key={i}
-						src={element.icon}
+						src={paginationImgs[i]}
+						title={element.title}
 						selectedIconIndex={selectedIconIndex}
 						ikey={i}
 						handleClick={() => {
@@ -67,33 +54,42 @@ export default function ModuleSection() {
 					/>
 				))}
 			</div>
+			<hr />
 
 			<div id="display-image-cont">
-				<img src={moduleElements[selectedIconIndex].displayImage} />
+				<img src={displayImgs[selectedIconIndex]} />
 			</div>
 
 			<div id="title-and-text-cont">
-				<p className="title">{moduleElements[selectedIconIndex].title}</p>
+				<p className="title">{moduleData[selectedIconIndex].title}</p>
 				<p className="subtext">
-					{moduleElements[selectedIconIndex].subText}
+					{moduleData[selectedIconIndex].subtext}
 				</p>
 			</div>
 		</div>
 	);
 }
 
-function Paginationicons({ src, handleClick, ikey, selectedIconIndex }) {
+function Paginationicons({ src, handleClick, ikey, selectedIconIndex, title }) {
 	return (
 		<div
 			className="module-section-pagination-icon-cont"
-			style={{
-				top: selectedIconIndex == ikey ? '10px' : '0',
-			}}
+			style={selectedIconIndex == ikey ? 
+				{
+					top: '10px',
+				}:
+				{
+					top: '0',
+				}}
 			onClick={() => {
 				handleClick();
 			}}
 		>
+			<div id='pagination-selected-indicator' style={
+				selectedIconIndex == ikey ? { display: 'block'} : {display: 'none'}
+			}></div>
 			<img src={src} />
+			<p id='pagination-icon-title'>{title}</p>
 		</div>
 	);
 }

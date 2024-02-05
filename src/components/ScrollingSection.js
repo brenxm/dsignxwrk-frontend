@@ -1,16 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-// eslint-disable-next-line
 import sliderImg1 from '../assets/scroll_imgs/0050.webp';
-// eslint-disable-next-line
 import sliderImg2 from '../assets/scroll_imgs/0050.webp';
-// eslint-disable-next-line
-import sliderImg3 from '../assets/scroll_imgs/0050.webp';
 
-import placeholderImg from '../assets/placeholder.png';
+import featuresData from '../../public/macroboard_features.json';
+import loadImagesFromPublic from '../utils/loadImagesFromPublic';
 
-export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
+export default function ScrollAnimPage({ imgIndex, height, appScrollPos, mainSubtext }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
+	const [featureImgs, setFeatureImgs] = useState([]);
 	const [elementsOpacity, setElementsOpacity] = useState({
 		titleText: '0',
 		subtext: '0',
@@ -28,10 +26,18 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 
 	// Initialization
 	useEffect(() => {
+
+		const featureImgsName = featuresData.map((value)=> `module_icons/${value.img}.webp`);
+		loadImagesFromPublic(featureImgsName).then((modules)=>{
+			const loadedImages = modules.map((module) => module.default);
+			setFeatureImgs(loadedImages);
+		});
+
 		loadScrollImgs(50).then((modules) => {
 			const loadedImages = modules.map((module) => module.default);
 			SetScrollImgs(loadedImages);
 		});
+	
 	}, []);
 
 	useEffect(() => {
@@ -52,8 +58,8 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 		}
 		return Promise.all(images);
 	}
-	/* eslint-disable-next-line */
-   function showElements() {
+
+	function showElements() {
 		setElementsOpacity({
 			titleText: '1',
 			subtext: '1',
@@ -91,9 +97,7 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 						opacity: elementsOpacity.subtext,
 					}}
 				>
-               Lorem ipsum how swapping! It&aposs like when you can switch out
-               parts of a machine usually a computer whilte it&aposs still
-               running.
+					{mainSubtext}
 				</p>
 			</div>
 			<div
@@ -102,12 +106,7 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos }) {
 					opacity: elementsOpacity.detailContainer,
 				}}
 			>
-				<IconDetail icon={placeholderImg} subtext="Hotswap module" />
-				<IconDetail icon={placeholderImg} subtext="Modular approach" />
-				<IconDetail icon={placeholderImg} subtext="Tactile key response" />
-				<IconDetail icon={placeholderImg} subtext="Mac and Windows" />
-				<IconDetail icon={placeholderImg} subtext="1000hz polling rate" />
-				<IconDetail icon={placeholderImg} subtext="CNC Aluminum body" />
+				{featuresData.map((data, i)=> <IconDetail key={i} icon={featureImgs[i]} subtext={data.title}/>)}
 			</div>
 		</div>
 	);

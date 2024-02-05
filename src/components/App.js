@@ -60,6 +60,7 @@ export default function App() {
 				imgIndex={scrollImgIndex}
 				height={scrollingSectionHeight}
 				appScrollPos={appScrollY}
+				mainSubtext={data['macro board']}
 			/>
 			<ModuleSection />
 			<SoftwareSection title={'Software'} titleSubText={data.software}/>
