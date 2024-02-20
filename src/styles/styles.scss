@@ -26,10 +26,6 @@ body {
    display: flex;
    flex-direction: column;
    align-items: center;
-
-   > * {
-      position: sticky;
-   }
 }
 
 /* Section Header */
@@ -94,20 +90,18 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: left;
-      align-items: center;
       width: 100%;
       padding-left: 10px;
 
       #nav-but-title-cont {
          display: flex;
          flex-direction: row;
-         justify-content: center;
+         align-items: center;
          gap: 10px;
 
          h2 {
             text-align: left;
-            display: inline;
-            font-size: 20px;
+            font-size: 16px;
             letter-spacing: 2px;
             color: rgb(207, 207, 207);
          }
@@ -241,6 +235,7 @@ body {
 /* Home Section */
 .home-section-cont {
    overflow: hidden;
+   min-height: 100vh;
    .rotators-cont {
       position: relative;
       left: -150px;
@@ -311,12 +306,13 @@ body {
 /* Scroll Anim Section */
 .scroll-anim-section {
    width: 100vw;
-   position: sticky;
    top: $top-nav-height;
    display: flex;
    flex-direction: column;
    align-items: center;
-
+   height: 2500px;
+   position: sticky;
+   
    h2 {
       text-align: center;
       position: relative;
@@ -399,7 +395,7 @@ body {
    }
 
    #pagination-icon-cont {
-      height: 200px;
+      height: 160px;
       display: flex;
       padding: 0 10px;
       align-items: center;
@@ -410,8 +406,8 @@ body {
          display: flex;
          flex-direction: column;
          align-items: center;
-         height: 100px;
-         width: 100px;
+         height: 80px;
+         width: 80px;
          position: relative;
 
          #pagination-selected-indicator {
@@ -425,7 +421,6 @@ body {
             box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
          }
 
-        
          > img {
             height: 100%;
          }
@@ -438,7 +433,7 @@ body {
    }
 
    #display-image-cont {
-      height: 400px;
+      height: 250px;
       display: flex;
       align-items: center;
       justify-content: center;

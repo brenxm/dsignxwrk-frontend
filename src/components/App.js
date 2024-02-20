@@ -8,8 +8,11 @@ import { useState, useEffect } from 'react';
 import data from '../../public/main.json';
 
 export default function App() {
+	// eslint-disable-next-line
 	const [scrollImgIndex, setScrollImgIndex] = useState(0);
+	// eslint-disable-next-line
 	const [scrollingSectionHeight, setScrollingSectionHeight] = useState('0');
+	// eslint-disable-next-line
 	const [appScrollY, setAppScrollY] = useState(0);
 
 	useEffect(() => {
@@ -20,10 +23,6 @@ export default function App() {
 		let scrollFrame = Math.abs(scrollEnd - scrollStart);
 		const scrollFramePerImage = scrollFrame / IMG_COUNT;
 		scrollFrame = scrollFrame - scrollFramePerImage; // Adjusting Frame to start at 0
-
-		setScrollingSectionHeight(
-			`calc(${IMG_COUNT * scrollFramePerImage}px + 100vh)`
-		);
 
 		disableScroll();
 
@@ -43,6 +42,13 @@ export default function App() {
 		});
 	}, []);
 
+	useEffect(()=>{
+		window.addEventListener('scroll', ()=>{
+			setAppScrollY(window.scrollY);
+		});
+	},[]);
+
+	// eslint-disable-next-line
 	function disableScroll() {
 		window.addEventListener('scroll', preventScroll, { passive: false });
 	}
@@ -54,16 +60,18 @@ export default function App() {
 
 	return (
 		<>
-			<TopNavMenu />
-			<HomeSection />
-			<ScrollAnimPage
-				imgIndex={scrollImgIndex}
-				height={scrollingSectionHeight}
-				appScrollPos={appScrollY}
-				mainSubtext={data['macro board']}
-			/>
-			<ModuleSection />
-			<SoftwareSection title={'Software'} titleSubText={data.software}/>
+			<TopNavMenu appScrollYPos={appScrollY}/>
+			<div>
+				<HomeSection />
+				<ScrollAnimPage
+					imgIndex={scrollImgIndex}
+					height={scrollingSectionHeight}
+					appScrollPos={appScrollY}
+					mainSubtext={data['macro board']}
+				/>
+				<ModuleSection />
+				<SoftwareSection title={'Software'} titleSubText={data.software}/>
+			</div>
 		</>
 	);
 }
@@ -107,15 +115,6 @@ function TopNavMenu() {
 	const [menuExpanded, setMenuExpanded] = useState(false);
 	const menuItemsManager = new MenuOptionManager();
 
-	useEffect(() => {
-		window.addEventListener('scroll', () => {
-			if (window.scrollY > 100) {
-				setExpandNavStyle(dockedNav);
-			} else {
-				setExpandNavStyle(expandedNav);
-			}
-		});
-	}, []);
 
 	function toggleMenuTray() {
 		// Toggle ON
@@ -179,10 +178,6 @@ function TopNavMenu() {
                   Dsign x Wrk
 					</h2>
 				</div>
-				<p style={expandNavStyle.subtext}>
-               Catering to the artists who value the craft of artistry in their
-               professional endevour.
-				</p>
 			</div>
 			<div id="nav-menu-cont">
 				{menuItemsManager.menuItems.map((item, i) => {

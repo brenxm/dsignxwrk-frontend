@@ -6,7 +6,7 @@ import sliderImg2 from '../assets/scroll_imgs/0050.webp';
 import featuresData from '../../public/macroboard_features.json';
 import loadImagesFromPublic from '../utils/loadImagesFromPublic';
 
-export default function ScrollAnimPage({ imgIndex, height, appScrollPos, mainSubtext }) {
+export default function ScrollAnimPage({ imgIndex, appScrollPos, mainSubtext }) {
 	const [scrollImgs, SetScrollImgs] = useState([]);
 	const [featureImgs, setFeatureImgs] = useState([]);
 	const [elementsOpacity, setElementsOpacity] = useState({
@@ -66,9 +66,9 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos, mainSub
 			detailContainer: '1',
 		});
 	}
-
+	
 	/* eslint-disable-next-line */
-   function hideElements() {
+	function hideElements() {
 		setElementsOpacity({
 			titleText: '0',
 			subtext: '0',
@@ -77,12 +77,9 @@ export default function ScrollAnimPage({ imgIndex, height, appScrollPos, mainSub
 	}
 
 	return (
-		<div
-			className="scroll-anim-section"
+		<div className="scroll-anim-section"
 			style={{
-				height: height,
-			}}
-		>
+			}}>
 			<div id="sequence-images-cont">
 				<h2
 					style={{

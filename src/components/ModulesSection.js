@@ -54,7 +54,6 @@ export default function ModuleSection() {
 					/>
 				))}
 			</div>
-			<hr />
 
 			<div id="display-image-cont">
 				<img src={displayImgs[selectedIconIndex]} />
