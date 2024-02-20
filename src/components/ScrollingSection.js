@@ -77,33 +77,42 @@ export default function ScrollAnimPage({ imgIndex, appScrollPos, mainSubtext }) 
 	}
 
 	return (
-		<div className="scroll-anim-section"
-			style={{
-			}}>
-			<div id="sequence-images-cont">
-				<h2
+		<div className="scroll-anim-section">
+			<div style={
+				{
+					position: 'sticky',
+					top: 0,
+					paddingTop: '20px',
+					backgroundColor: 'black',
+					height: '100vh'
+				}
+			}>
+				<div id="sequence-images-cont">
+					<h2
+						style={{
+							opacity: elementsOpacity.titleText,
+
+						}}
+					>
+						The Macro Board
+					</h2>
+					<ImgSlider imgs={scrollXImages} scrollYPos={appScrollPos} />
+					<p
+						style={{
+							opacity: elementsOpacity.subtext,
+						}}
+					>
+						{mainSubtext}
+					</p>
+				</div>
+				<div
+					className="icon-detail-cont"
 					style={{
-						opacity: elementsOpacity.titleText,
+						opacity: elementsOpacity.detailContainer,
 					}}
 				>
-               The Macro Board
-				</h2>
-				<ImgSlider imgs={scrollXImages} scrollYPos={appScrollPos} />
-				<p
-					style={{
-						opacity: elementsOpacity.subtext,
-					}}
-				>
-					{mainSubtext}
-				</p>
-			</div>
-			<div
-				className="icon-detail-cont"
-				style={{
-					opacity: elementsOpacity.detailContainer,
-				}}
-			>
-				{featuresData.map((data, i)=> <IconDetail key={i} icon={featureImgs[i]} subtext={data.title}/>)}
+					{featuresData.map((data, i) => <IconDetail key={i} icon={featureImgs[i]} subtext={data.title} />)}
+				</div>
 			</div>
 		</div>
 	);

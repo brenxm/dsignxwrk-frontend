@@ -17,7 +17,7 @@ export default function App() {
 
 	useEffect(() => {
 		const scrollStart = 600;
-		const scrollEnd = 2100;
+		const scrollEnd = 2000;
 		const IMG_COUNT = 50; // Coordinate with Scroll Section Component
 		const START_IMG_INDEX = 1;
 		let scrollFrame = Math.abs(scrollEnd - scrollStart);

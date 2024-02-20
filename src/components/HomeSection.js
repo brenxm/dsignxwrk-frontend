@@ -91,7 +91,7 @@ export default function HomeSection() {
 			<div
 				id="home-section-macroboard-title-cont"
 				onClick={() => {
-					smoothScrollTo(2100);
+					smoothScrollTo(2000);
 				}}
 			>
 				<h3>Macro Board</h3>

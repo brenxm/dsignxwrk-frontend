@@ -236,6 +236,7 @@ body {
 .home-section-cont {
    overflow: hidden;
    min-height: 100vh;
+   
    .rotators-cont {
       position: relative;
       left: -150px;
@@ -307,16 +308,15 @@ body {
 .scroll-anim-section {
    width: 100vw;
    top: $top-nav-height;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   height: 2500px;
-   position: sticky;
+   height: 2000px;
+   background-color: black;
+
    
    h2 {
       text-align: center;
       position: relative;
       top: 50px;
+      color: white
    }
 
    .slider-img-cont {
@@ -354,6 +354,7 @@ body {
       text-align: center;
       position: relative;
       bottom: 50px;
+      color: white;
    }
 
    .icon-detail-cont {
@@ -361,6 +362,7 @@ body {
       grid-template-rows: repeat(3, auto);
       grid-template-columns: repeat(3, auto);
       gap: 20px;
+      background-color: black;
 
       .icon-detail {
          display: flex;
@@ -386,6 +388,7 @@ body {
    width: 100vw;
    min-height: 100vh;
    background-color: white;
+   padding-top: 200px;
 
    #module-section-page-title-cont {
       font-size: 30px;
