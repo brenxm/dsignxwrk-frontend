@@ -4,6 +4,7 @@ import ScrollAnimPage from './ScrollingSection';
 import ModuleSection from './ModulesSection';
 import SoftwareSection from './SoftwareSection';
 import mainLogo from '../assets/nav_buttons/main_logo.png';
+import shoppingBagIcon from '../assets/nav_buttons/shopping_bag.png';
 import { useState, useEffect } from 'react';
 import data from '../../public/main.json';
 
@@ -177,6 +178,38 @@ function TopNavMenu() {
 					<h2 style={expandNavStyle.title} id="title-text">
                   Dsign x Wrk
 					</h2>
+					<div>
+						<button
+							style={{
+								width: '40px',
+								height: '40px',
+								backgroundImage: `url(${shoppingBagIcon})`,
+								backgroundSize: '25px',
+								backgroundPosition: 'center',
+								backgroundRepeat: 'no-repeat',
+								backgroundColor: 'rgba(0,0,0,0)',
+								border: 'none',
+							}}
+						>
+						</button>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'center',
+								position: 'absolute',
+								top: '35px',
+								color: 'white',
+								backgroundColor: '#E82020',
+								borderRadius: '50%',
+								textAlign: 'center',
+								fontSize: '12px',
+								height: '17px',
+								width: '17px'
+							}}
+						>1
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="nav-menu-cont">
