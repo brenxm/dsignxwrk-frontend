@@ -46,3 +46,24 @@ export function ScrollDownButton({ label, scrollCord }) {
 export function Spacer({ size }) {
 	return <div className="spacer" style={{ flexGrow: size }}></div>;
 }
+
+
+export function TextFieldOne({label, placeholder, errorMessage, errorMessageEnabled}) {
+	return (
+		<div className='input-field-one-main-cont'>
+			<p className="input-field-one-label">{label}</p>
+			<input className='input-field-one-input' placeholder={placeholder}></input>
+			<p className='input-field-one-error-message' style={{
+				opacity: errorMessageEnabled ? '1' : '0'
+			}}>{errorMessage}</p>
+		</div>
+	);
+}
+
+export function ButtonOne({label}){
+	return(
+		<button className='button-one-but'>
+			{label}
+		</button>
+	);
+}
