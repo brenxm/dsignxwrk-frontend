@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import data from '../../public/main.json';
 import HomePage from './homepage/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginRegistration from './login_registration/LoginRegistration';
+import { LoginPage, RegistrationPage } from './login_registration/LoginRegistration';
+
+
 
 export default function App() {
 	// eslint-disable-next-line
@@ -60,9 +62,8 @@ export default function App() {
 		<Router>
 			<Routes>
 				<Route path="/" element={<HomePage appScrollY={appScrollY} scrollImgIndex={scrollImgIndex} scrollingSectionHeight={scrollingSectionHeight} mainSubtext={data['macro board']} softwareSectionTitle={'Software'} softwareSectionSubText={data['software']} />} />
-				<Route path="/login" element={<LoginRegistration />}/>
-				<Route path="/registration" element={<div>Hello world</div>}/>
-				<Route path="/profile" element={<div>Hello world</div>}/>
+				<Route path="/login" element={<LoginPage />}/>
+				<Route path="/registration" element={<RegistrationPage />}/>
 			</Routes>
 		</Router>
 	);
