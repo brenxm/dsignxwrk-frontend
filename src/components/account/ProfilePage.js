@@ -9,11 +9,11 @@ export default function ProfilePage() {
 				<NavButtons label="View/Edit Profile"/>
 				<NavButtons label="logout"/>
 			</div>
-			<div>
-                Hi, Brenx
-			</div>
+			<p id="profile-greetings-and-name">
+					Hi, Brenx
+			</p>
 			{/* For testing, use recent_orders.json in public dir */}
-			<ProfileDisplayItems label='Recent orders'items={recentOrdersData}/>
+			<ProfileDisplayItems label='Recent orders'data={recentOrdersData}/>
 		</div>
 	);
 }
@@ -28,46 +28,49 @@ function NavButtons({label}){
 }
 
 
-function ProfileDisplayItems ({ label, items: data }){
+function ProfileDisplayItems ({ label, data }){
 
 	const [displayItems, setDisplayItems] = useState([]);
-	// Modify each item to load icon using 'import' with 'icon' attribute as reference
-	let items = [];
 
-	useEffect(
-		()=>{
-			items = data.map((data) => {
-				return {
-					icon: import('../../assets/image.png').then((module) => module.default),
-					itemName: data.itemName,
-					datePurchase: data.datePurchase
-				};
-			});
+	useEffect(()=>{
 
-			setDisplayItems(items);
-			console.log(items);
-		}, []
+		const loadIcons = async () => {
+			const loadedItems = await Promise.all(
+				data.map(async (dataItem)=>{
+					const icon = await import('../../assets/image.png');
+					return {
+						icon: icon.default,
+						itemName: dataItem.itemName,
+						datePurchase: dataItem.datePurchase
+					};
+				})
+			);
+
+			setDisplayItems(loadedItems);
+		};
+		loadIcons();
+	}, [data]
 	);
 
 	return (
 		<div id='profile-display-items-main-cont'>
-			<h3>{label}</h3>
+			<p className='profile-display-main-title'>{label}</p>
 			<hr></hr>
 			{/* each item from items requires is an object with 3 attributes
-                1. item icon
-                2. name of item
-                3. date of purchase
-            */}
+					1. item icon
+					2. name of item
+					3. date of purchase
+				*/}
 			<div id='items-container'>
 				{displayItems.map((data, i)=>
-					<div key={i}>
-						<img src={data.icon}></img>
-						<p>{data.itemName}</p>
-						<p>{data.datePurchase}</p>
+					<div key={i} className='display-item-instance'>
+						<img src={data.icon} className='display-item-instance-icon'></img>
+						<p className='display-item-instance-name'>{data.itemName}</p>
+						<p className='display-item-instance-date-purchase'>{data.datePurchase}</p>
 					</div>
 				)}
 			</div>
-            
+			<button id="view-all-button">View all</button>
 			<hr></hr>
 		</div>
 	);
