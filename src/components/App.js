@@ -4,6 +4,7 @@ import data from '../../public/main.json';
 import HomePage from './homepage/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { LoginPage, RegistrationPage } from './login_registration/LoginRegistration';
+import ProfilePage from './account/ProfilePage';
 
 
 
@@ -64,6 +65,7 @@ export default function App() {
 				<Route path="/" element={<HomePage appScrollY={appScrollY} scrollImgIndex={scrollImgIndex} scrollingSectionHeight={scrollingSectionHeight} mainSubtext={data['macro board']} softwareSectionTitle={'Software'} softwareSectionSubText={data['software']} />} />
 				<Route path="/login" element={<LoginPage />}/>
 				<Route path="/registration" element={<RegistrationPage />}/>
+				<Route path="/profile" element={<ProfilePage />}/>
 			</Routes>
 		</Router>
 	);

@@ -507,10 +507,10 @@ body {
                width: 100%;
             }
       
-            #software-feature-subtext {}
          }
    }
 }
 
 @import '../../src/components/login_registration/LoginRegistrationStyles.scss';
-@import './component_styles.scss'
+@import './component_styles.scss';
+@import '../components/account/profile_page_style.scss';

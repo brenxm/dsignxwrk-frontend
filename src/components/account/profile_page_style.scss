@@ -1,0 +1,17 @@
+#profile-page-main-cont {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+
+}
+
+#profile-page-nav-bar {
+    display: flex;
+    justify-content: right;
+}
+
+#profile-display-items-main-cont {
+    hr {
+        border: 1px solid black;
+    }
+}
