@@ -1,4 +1,4 @@
-.input-field-one-main-cont {
+.input-field-one-main-cont, .pw-input-field-main-cont {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -6,17 +6,17 @@
     min-width: 350px;
 }
 
-.input-field-one-label {
+.input-field-one-label, .pw-input-field-main-cont {
     font-size: 18px;
 }
 
-.input-field-one-input {
+.input-field-one-input, .pw-input-field-input {
     height: 30px;
     border: 1px black solid;
     border-radius: 5px;
 }
 
-.input-field-one-error-message {
+.input-field-one-error-message, .pw-input-field-error-message {
     color: red;
 }
 

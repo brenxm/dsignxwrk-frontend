@@ -48,11 +48,12 @@ export function Spacer({ size }) {
 }
 
 
-export function TextFieldOne({label, placeholder, errorMessage, errorMessageEnabled}) {
+export function TextFieldOne({label, placeholder, errorMessage, errorMessageEnabled, onChangeFn}) {
+
 	return (
 		<div className='input-field-one-main-cont'>
 			<p className="input-field-one-label">{label}</p>
-			<input className='input-field-one-input' placeholder={placeholder}></input>
+			<input className='input-field-one-input' placeholder={placeholder} onChange={onChangeFn} ></input>
 			<p className='input-field-one-error-message' style={{
 				opacity: errorMessageEnabled ? '1' : '0'
 			}}>{errorMessage}</p>
@@ -60,10 +61,36 @@ export function TextFieldOne({label, placeholder, errorMessage, errorMessageEnab
 	);
 }
 
-export function ButtonOne({label}){
+export function PasswordInputField({label, errorMessage}){
+	return (
+		<div className='pw-input-field-main-cont'>
+			<p className='pw-input-field-label'>{label}</p>
+			<input className='pw-input-field-input' type='password'></input>
+			<p className='pw-input-field-error-message'>{errorMessage}</p>
+		</div>
+	);
+}
+
+export function ButtonOne({label, handleClick}){
 	return(
-		<button className='button-one-but'>
+		<button className='button-one-but' onClick={handleClick}>
 			{label}
 		</button>
 	);
 }
+
+export function TextButtonOne({label, onClickFn}) {
+	return(
+		<button className="text-button-one" onClick={onClickFn}>
+			{label}
+		</button>
+	);
+}
+
+export function CheckBoxOne({label, name}){
+	<div>
+		<input type='checkbox' name={name} className='checkbox-one' />
+		<label htmlFor={name}>{label}</label>
+	</div>;
+}
+
