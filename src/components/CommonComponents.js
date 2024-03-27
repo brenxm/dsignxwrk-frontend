@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 export function Header({ icon, title, message }) {
 	return (
@@ -47,25 +48,45 @@ export function Spacer({ size }) {
 	return <div className="spacer" style={{ flexGrow: size }}></div>;
 }
 
+/**
+ * 
+ * @param {
+ * 	label: (str) 
+ *  placeholder: (str) - optional placeholder for input field
+ * 	errorMessage: (str) - description/error to display when validation fail
+ *  validationFlagOnChange: (fn that accept a str as argument and returns bool) - test the validation every changes in input
+ * validationFlagOnSubmit: (fn that accept a str as argutment and returns bool) - test the validation of input on submission
+ * } param0 
+ */
+export function TextFieldOne({label, placeholder, errorMessage, validationFlag}) {
+	
+	/* eslint-disable-next-line */
+	const [errorMessageIsEnable, setErrorMessageIsEnable] = useState(false);
 
-export function TextFieldOne({label, placeholder, errorMessage, errorMessageEnabled, onChangeFn}) {
+	function onChangeHandle(e){
+		if (!validationFlag) return;
+		let text = e.target.value;
+		
+		console.log(validationFlag(text));
+	}
 
 	return (
 		<div className='input-field-one-main-cont'>
-			<p className="input-field-one-label">{label}</p>
-			<input className='input-field-one-input' placeholder={placeholder} onChange={onChangeFn} ></input>
+			<label className="input-field-one-label">{label}</label>
+			<input className='input-field-one-input' name={label} placeholder={placeholder} onChange={onChangeHandle} ></input>
 			<p className='input-field-one-error-message' style={{
-				opacity: errorMessageEnabled ? '1' : '0'
+				opacity: errorMessageIsEnable ? '1' : '0'
 			}}>{errorMessage}</p>
 		</div>
 	);
 }
 
-export function PasswordInputField({label, errorMessage}){
+
+export function PasswordInputField({label, errorMessage, onChangeFn}){
 	return (
 		<div className='pw-input-field-main-cont'>
 			<p className='pw-input-field-label'>{label}</p>
-			<input className='pw-input-field-input' type='password'></input>
+			<input className='pw-input-field-input' type='password' onChange={onChangeFn}></input>
 			<p className='pw-input-field-error-message'>{errorMessage}</p>
 		</div>
 	);

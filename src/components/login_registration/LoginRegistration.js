@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import checkIconGreen from '../../assets/check-black.png';
 import checkIconGray from '../../assets/check-gray.png';
+import validations from '../../../public/validations/pw_validations';
 
 
 export function LoginPage() {
@@ -38,25 +39,44 @@ export function RegistrationPage() {
 		navigate('/login');
 	}
 
+
+	/* Password Validation Indicators
+		Arguments:
+			validations - (Array of objects)
+				schema per object 
+					flag: (bool) - validation testing 
+					description: (str) - description of the test/flag
+
+	 */
 	/* eslint-disable-next-line */
-	function PasswordRequirementIndicationCheck(){
+	function PasswordValidationIndicators({pwValidations}){
+		
+		// Initialize validation flags to useState var
+		const tempValidations = pwValidations.map((val)=>{
+			return val['status'] = 'pending';
+		});
 
-		/**** 
-		 *  3 status type in str
-		 *  1. 'approved' - meet the criteria for this specific requirement
-		 *  2. 'invalid' - when submitted but didn't meet criteria
-		 *  3. 'pending'- when neither approved or submitted
-		 *   ****/
-		/* eslint-disable-next-line */
-		const [status, setStatus] = useState('pending');
+		// eslint-disable-next-line
+		const [validationStatuses, setValidationStatuses] = useState(tempValidations);
+		
+		
 
-	
+		function ValidationCheckElement({status, description}){
+			return (
+				<div className='pw-validation-checks-cont'>
+					<img src={
+						status == 'pending' ? checkIconGray : checkIconGreen
+					} className='registration-page-pw-check-mark' />
+					<p>{description}</p>
+				</div>
+			);
+		}
+
 		return (
-			<div className='check-mark-indicator-cont'>
-				<img src={
-					status=='pending' ? checkIconGray : checkIconGreen
-				} className='registration-page-pw-check-mark'/>
-				<p>{}</p>
+			<div>
+				{validationStatuses.map((val, i)=>{
+					return <ValidationCheckElement key={i} status={val['status']} description={val['description']}/>;
+				})}
 			</div>
 		);
 	}
@@ -64,7 +84,7 @@ export function RegistrationPage() {
 	return (
 		<div id='registration-page-main-cont'>
 			<p id='registration-page-title'>Register an account</p>
-			<TextFieldOne label="First Name" />
+			<TextFieldOne label="First Name" validationFlag={validations()[0]['flag']}/>
 			<TextFieldOne label="Last Name" />
 			<TextFieldOne label="Email address" />
 			<TextFieldOne label="Phone Number" />
@@ -73,9 +93,11 @@ export function RegistrationPage() {
 			<TextFieldOne label="City" />
 			<TextFieldOne label="State" />
 			<PasswordInputField label="Password"/>
+			{/* Indicator goes here */}
 			<PasswordInputField label="Verify Password"/>
 			<ButtonOne label={'submit'} />
 			<TextButtonOne label={'Login instead'} onClickFn={handleLoginInsteadBtn}/>
 		</div>
 	);
 }
+
