@@ -81,17 +81,6 @@ export function TextFieldOne({label, placeholder, errorMessage, validationFlag})
 	);
 }
 
-
-export function PasswordInputField({label, errorMessage, onChangeFn}){
-	return (
-		<div className='pw-input-field-main-cont'>
-			<p className='pw-input-field-label'>{label}</p>
-			<input className='pw-input-field-input' type='password' onChange={onChangeFn}></input>
-			<p className='pw-input-field-error-message'>{errorMessage}</p>
-		</div>
-	);
-}
-
 export function ButtonOne({label, handleClick}){
 	return(
 		<button className='button-one-but' onClick={handleClick}>
