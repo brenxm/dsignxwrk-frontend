@@ -33,21 +33,20 @@ export function LoginPage() {
 		);
 		*/
 
-	function onSubmitHandle(e){
-		const formData = new FormData(e.target.form);
-		console.log(formData.entries());
-		console.log('what up');
-	}
-
+	// TODO: Update the action attribute to the receiving api network path of server
 	return (
 		<div id="login-page">
-			<form>
-				<label htmlFor="username">Username</label>
-				<input name="username"></input>
-				<label htmlFor="password">Password</label>
-				<input name="password" type='password' minLength='2'></input>
-				<button type="button" onClick={onSubmitHandle}>Submit</button>
+			<form id='login-form-cont' method='POST' action=''>
+				<label id='username-label' htmlFor="username">Username</label>
+				<input id='username-input' name="username" required></input>
+				<label id='password-label' htmlFor="password">Password</label>
+				<input id='password-input'name="password" type='password' required></input>
+				<p style={{
+					opacity: errorMessageEnabled ? '1' : '0'
+				}}id='login-form-error-message'>Username and password does not match.</p>
+				<button id='login-form-submit-button' type="submit" >Login</button>
 			</form>
+			<TextButtonOne onClickFn={null} label='Forgot username or password'/>
 			<TextButtonOne onClickFn={createAccountHandleButton} label="Create an account" />
 		</div>
 	);
