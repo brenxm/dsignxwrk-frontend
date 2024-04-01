@@ -51,6 +51,7 @@ export function Spacer({ size }) {
 /**
  * 
  * @param {
+ * 'name' attribute and 'label' are the same
  * 	label: (str) 
  *  placeholder: (str) - optional placeholder for input field
  * 	errorMessage: (str) - description/error to display when validation fail

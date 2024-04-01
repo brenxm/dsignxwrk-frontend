@@ -20,20 +20,7 @@ export function LoginPage() {
 		navigate('/registration');
 	}
 
-	/*return (
-		<form id="login-page">
-			<h3 id="login-page-title">Login</h3>
-			<TextFieldOne label={'Username'}/>
-			<TextFieldOne label={'Password'} errorMessage={'Username and password does not match.'} errorMessageEnabled={errorMessageEnabled}></TextFieldOne>
-			<ButtonOne label={'Login'} />
-			<button>Forgot username or password</button>
-			<p>or</p>
-			<TextButtonOne onClickFn={createAccountHandleButton} label="Create an account"/>
-		</form>
-		);
-		*/
-
-	// TODO: Update the action attribute to the receiving api network path of server
+	// TODO: Update the 'action' attribute to the receiving api network path of server
 	return (
 		<div id="login-page">
 			<form id='login-form-cont' method='POST' action=''>
@@ -101,8 +88,9 @@ export function RegistrationPage() {
 		);
 	}
 
+	// TODO: Update 'action' attribute
 	return (
-		<div id='registration-page-main-cont'>
+		<form id='registration-page-main-cont' method='POST' action='placeholder'>
 			<p id='registration-page-title'>Register an account</p>
 			<TextFieldOne label="First Name" validationFlag={validations()[0]['flag']}/>
 			<TextFieldOne label="Last Name" />
@@ -114,7 +102,7 @@ export function RegistrationPage() {
 			<TextFieldOne label="State" />
 			<ButtonOne label={'submit'} />
 			<TextButtonOne label={'Login instead'} onClickFn={handleLoginInsteadBtn}/>
-		</div>
+		</form>
 	);
 }
 

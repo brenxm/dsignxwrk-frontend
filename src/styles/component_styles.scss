@@ -1,19 +1,19 @@
 .input-field-one-main-cont, .pw-input-field-main-cont {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 1px;
     padding: 5px 20px;
     min-width: 350px;
 }
 
 .input-field-one-label, .pw-input-field-main-cont {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .input-field-one-input, .pw-input-field-input {
     height: 30px;
-    border: 1px black solid;
-    border-radius: 5px;
+    border: 0.1px black solid;
+    border-radius: 2px;
 }
 
 .input-field-one-error-message, .pw-input-field-error-message {

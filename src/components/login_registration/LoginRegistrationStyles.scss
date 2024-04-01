@@ -21,6 +21,8 @@
         }
         input {
             height: 30px;
+            border: 0.1px black solid;
+            border-radius: 2px;
         }
 
         #login-form-error-message {
