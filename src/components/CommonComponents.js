@@ -59,7 +59,7 @@ export function Spacer({ size }) {
  * validationFlagOnSubmit: (fn that accept a str as argutment and returns bool) - test the validation of input on submission
  * } param0 
  */
-export function TextFieldOne({label, placeholder, errorMessage, validationFlag}) {
+export function TextFieldOne({label, placeholder, errorMessage, validationFlag, required}) {
 	
 	/* eslint-disable-next-line */
 	const [errorMessageIsEnable, setErrorMessageIsEnable] = useState(false);
@@ -73,8 +73,8 @@ export function TextFieldOne({label, placeholder, errorMessage, validationFlag})
 
 	return (
 		<div className='input-field-one-main-cont'>
-			<label className="input-field-one-label">{label}</label>
-			<input className='input-field-one-input' name={label} placeholder={placeholder} onChange={onChangeHandle} ></input>
+			<label className="input-field-one-label" htmlFor={label}>{label}</label>
+			<input className='input-field-one-input' name={label} placeholder={placeholder} onChange={onChangeHandle} required={required}></input>
 			<p className='input-field-one-error-message' style={{
 				opacity: errorMessageIsEnable ? '1' : '0'
 			}}>{errorMessage}</p>
@@ -82,9 +82,9 @@ export function TextFieldOne({label, placeholder, errorMessage, validationFlag})
 	);
 }
 
-export function ButtonOne({label, handleClick}){
+export function ButtonOne({label, onClickFn, type}){
 	return(
-		<button className='button-one-but' onClick={handleClick}>
+		<button type={!type ? 'submit' : type} className='button-one-but' onClick={onClickFn}>
 			{label}
 		</button>
 	);
