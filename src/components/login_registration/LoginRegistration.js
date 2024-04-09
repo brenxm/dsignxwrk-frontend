@@ -1,5 +1,5 @@
 import React, { useRef} from 'react';
-import { TextButtonOne } from '../CommonComponents';
+import { ButtonOne, TextButtonOne } from '../CommonComponents';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 /* eslint-disable-next-line */
@@ -46,36 +46,59 @@ export function RegistrationPage() {
 		navigate('/login');
 	}
 
-	/* Modify to this change input field values*/
-	/* eslint-disable-next-line */
+	/*** Modify to this change input field values ***/
+	/* schematic for inputfield data 
+		label: (str camelCase) - renders in UI (formatted) and used as property
+		validations: (array of obj) - validates input in order, first error will show in UI. No error means valid
+			[
+				flag: (fn) param as the input value, returns a bool,
+				errMsg: (str) error message that renders if invalid
+			]
+		formatter: (fn) accept the input, returns formatted str
+	*/
+	
 	const inputFieldData = [
 		{
 			label: 'firstName',
 			validations: [
 				{
-					flag: (val)=> val.length > 0,
-					errMsg: 'This field is required.'
-				},
-				{
 					flag: (val) => val.length <= 40,
 					errMsg: 'Must not exceed 40 characters.'
 				}
 			],
+			required: true,
 			formatter: (val) => val
 		},
 		{
 			label: 'lastName',
 			validations: [
 				{
-					flag: (val) => val.length > 0,
-					errMsg: 'This field is required.'
-				},
-				{
 					flag: (val) => val.length <= 40,
 					errMsg: 'Must not exceed 40 characters.'
 				}
-			]
+			],
+			required: true
 		},
+		{
+			label: 'emailAddress',
+			validations: [
+				{
+					flag: (val) => /[\w]+@[A-Za-z0-9]+.[A-Za-z]+$/.test(val),
+					errMsg: 'Invalid format. Example of accepted format youremail@yuhoo.com.'
+				}
+			],
+			required: true
+		},
+		{
+			label: 'phoneNumber',
+			validations: [
+				{
+					flag: (val) => /^\d\d\d[ -]?\d\d\d[ -]?\d\d\d\d$/.test(val),
+					errMsg: 'Invalid format. Example of accepted format 999-999-9999.'
+				}
+			],
+
+		}
 	];
 	
 	// Add id attribute to inputFieldData
@@ -109,8 +132,19 @@ export function RegistrationPage() {
 			// Validating all processes with the current element
 			for(let i = 0; i < validations.length; i++){
 
+				if (inputValue == ''){
+					if (inputFieldData[counter].required){
+						tempErrMsgs[counter] = 'This field is required.';
+						console.log('calleder');
+						break;
+					}
+
+					continue;
+				}
+
 				// If invalid value
 				if(!validations[i].flag(inputValue)){ 
+
 					tempErrMsgs[counter] = validations[i].errMsg;
 					break;
 				}
@@ -127,16 +161,11 @@ export function RegistrationPage() {
 		// Check if all inputs are valid
 		const allValid = tempErrMsgs.every((value)=> value == false);
 		console.log(allValid);
+
+
+		// if all valid, ensure to format 
 	}
 
-	/* TODO: Make a schematic for input fields
-	-name/label (str) - in camelcase, used as 'name' reference, label (separated by space at camelcase and first word capitalized)
-	-flags (arr of obj) - check each flag in order, 
-		-per flag
-			-pattern/flag ((inputStr)->bool)
-			-error-message (str)
-			
-	 */
 
 	function camelCaseToCapitalized(inputStr) {
 		let spacedOut = inputStr.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
@@ -149,23 +178,21 @@ export function RegistrationPage() {
 			<p id='registration-page-title'>Register an account</p>
 			{inputFieldData.map((val,i)=>{
 				return (
-					<div key={i}>
-						<label htmlFor={val.label} >
+					<div key={i} className='registration-input-cont'>
+						<label htmlFor={val.label} className='registration-input-label'>
 							{camelCaseToCapitalized(val.label)}
 						</label>
-						<input name={val.label}>
+						<input name={val.label} className='registration-input-field'>
 							
 						</input>
-						<p>
+						<p className='registration-input-errmsg'>
 							{errorMessages[val.id]}
 						</p>
 					</div>
 				);
 			})}
+			<ButtonOne label="Register"/>
 			<TextButtonOne label={'Login instead'} onClickFn={handleLoginInsteadBtn}/>
-			<button>
-				Submit
-			</button>
 		</form>
 	);
 }

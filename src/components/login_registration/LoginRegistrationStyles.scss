@@ -59,11 +59,34 @@ button {
     flex-direction: column;
     align-items: center;
     padding: 15px;
+    gap: 4px;
+    width: 100vw;
 
     #registration-page-title {
         font-size: 25px;
         font-weight: 600;
     }
+
+    .registration-input-cont {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+
+        .registration-input-label {
+        }
+
+        .registration-input-field {
+            height: 30px;
+        }
+
+        .registration-input-errmsg {
+            font-size: 13px;
+            color: red;
+            height: 13px;
+        }
+    }
+
 
     #pw-indicator-checks-cont {
         padding: 0 20px;
