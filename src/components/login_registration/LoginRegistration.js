@@ -48,17 +48,21 @@ export function RegistrationPage() {
 
 	/*** Modify to this change input field values ***/
 	/* schematic for inputfield data 
+		validChar: (regex) - accepted character,
+		type: (valid input element attribute as str),
 		label: (str camelCase) - renders in UI (formatted) and used as property
 		validations: (array of obj) - validates input in order, first error will show in UI. No error means valid
 			[
 				flag: (fn) param as the input value, returns a bool,
 				errMsg: (str) error message that renders if invalid
 			]
-		formatter: (fn) accept the input, returns formatted str
+		placeholder: (optional str),
+		autocapitalized: (str) 
 	*/
 	
 	const inputFieldData = [
 		{
+			validChar: /[a-zA-Z -]/,
 			label: 'firstName',
 			validations: [
 				{
@@ -70,6 +74,7 @@ export function RegistrationPage() {
 			formatter: (val) => val
 		},
 		{
+			validChar: /[a-zA-Z -]/,
 			label: 'lastName',
 			validations: [
 				{
@@ -90,21 +95,21 @@ export function RegistrationPage() {
 			required: true
 		},
 		{
+			validChar: /\d/,
 			label: 'phoneNumber',
+			type: 'number',
 			validations: [
 				{
 					flag: (val) => /^\d\d\d[ -]?\d\d\d[ -]?\d\d\d\d$/.test(val),
 					errMsg: 'Invalid format. Example of accepted format 999-999-9999.'
 				}
 			],
-
+			placeholder: 'Optional'
 		}
 	];
 	
 	// Add id attribute to inputFieldData
 	inputFieldData.map((val, i)=> val.id = i);
-
-	console.log(inputFieldData);
 
 	// Dynamically modify error messages of each input. If an input error message is set to undefined or false value, it means that the there is no error.
 	/* eslint-disable-next-line */
@@ -182,8 +187,23 @@ export function RegistrationPage() {
 						<label htmlFor={val.label} className='registration-input-label'>
 							{camelCaseToCapitalized(val.label)}
 						</label>
-						<input name={val.label} className='registration-input-field'>
-							
+						<input name={val.label} className='registration-input-field' placeholder={val.placeholder}
+							onChange={
+								(e)=>{
+									const lastValueIndex = e.target.value.length - 1;
+									const recentCharacter = e.target.value.charAt(lastValueIndex);
+									try {
+										if (!val.validChar.test(recentCharacter)) {
+											e.target.value = e.target.value.slice(0, lastValueIndex);
+										} else {
+											console.log('valid character');
+										}
+									} catch (error) {
+										console.log(error);
+									}
+								}
+							}
+						>
 						</input>
 						<p className='registration-input-errmsg'>
 							{errorMessages[val.id]}
