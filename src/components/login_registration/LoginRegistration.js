@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import checkIconGreen from '../../assets/check-black.png';
 /* eslint-disable-next-line */
 import checkIconGray from '../../assets/check-gray.png';
+import validations from '../../../public/validations/pw_validations';
 
 export function LoginPage() {
 
@@ -101,11 +102,20 @@ export function RegistrationPage() {
 			validations: [
 				{
 					flag: (val) => /^\d\d\d[ -]?\d\d\d[ -]?\d\d\d\d$/.test(val),
-					errMsg: 'Invalid format. Example of accepted format 999-999-9999.'
+					errMsg: 'Invalid phone number.'
 				}
 			],
 			placeholder: 'Optional'
-		}
+		},
+		{
+			label: 'addressStreet',
+			validations: [],
+			required: true
+		},
+		{
+			label: 'street2',
+			validations: [],
+		},
 	];
 	
 	// Add id attribute to inputFieldData
@@ -134,29 +144,24 @@ export function RegistrationPage() {
 			const validations = inputFieldData[counter].validations;
 
 
-			// Validating all processes with the current element
-			for(let i = 0; i < validations.length; i++){
-
-				if (inputValue == ''){
-					if (inputFieldData[counter].required){
-						tempErrMsgs[counter] = 'This field is required.';
-						console.log('calleder');
-						break;
-					}
-
-					continue;
+			if (inputValue == ''){
+				if (inputFieldData[counter].required) {
+					tempErrMsgs[counter] = 'This field is required.';
 				}
 
-				// If invalid value
-				if(!validations[i].flag(inputValue)){ 
+			} else {
+				for (let i = 0; i < validations.length; i++) {
 
-					tempErrMsgs[counter] = validations[i].errMsg;
-					break;
+					// If invalid value
+					if (!validations[i].flag(inputValue)) {
+
+						tempErrMsgs[counter] = validations[i].errMsg;
+						break;
+					}
 				}
 			}
 
 			counter++;
-
 		});
 
 		setErrorMessages(tempErrMsgs);
@@ -185,7 +190,7 @@ export function RegistrationPage() {
 				return (
 					<div key={i} className='registration-input-cont'>
 						<label htmlFor={val.label} className='registration-input-label'>
-							{camelCaseToCapitalized(val.label)}
+							{`${camelCaseToCapitalized(val.label)}${val.required ? '*' : ''}`}
 						</label>
 						<input name={val.label} className='registration-input-field' placeholder={val.placeholder}
 							onChange={
