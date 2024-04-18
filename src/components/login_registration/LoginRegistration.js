@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import checkIconGreen from '../../assets/check-black.png';
 /* eslint-disable-next-line */
 import checkIconGray from '../../assets/check-gray.png';
-import validations from '../../../public/validations/pw_validations';
 
 export function LoginPage() {
 
@@ -42,6 +41,21 @@ export function LoginPage() {
 export function RegistrationPage() {
 	let navigate = useNavigate();
 	let formRef = useRef(null);
+
+	/* eslint-disable-next-line */
+	const [inputPasswordType, setInputPasswordType] = useState('password');
+	const [togglePasswordBtn, setTogglePasswordBtn] = useState('show');
+
+	function handleShowPasswordBtn(){
+		if (inputPasswordType == 'password'){
+			setInputPasswordType('text');
+			setTogglePasswordBtn('hide');
+			return;
+		}
+
+		setInputPasswordType('password');
+		setTogglePasswordBtn('show');
+	}
 
 	function handleLoginInsteadBtn(){
 		navigate('/login');
@@ -116,6 +130,28 @@ export function RegistrationPage() {
 			label: 'street2',
 			validations: [],
 		},
+		{
+			label: 'city',
+			validations: [],
+			required: true
+		},
+		{
+			label: 'zipCode',
+			validations: [],
+			required: true
+		},
+		{
+			label: 'password',
+			validations: [],
+			required: true,
+			type: 'password'
+		},
+		{
+			label: 'verifyPassword',
+			validations: [],
+			required: true,
+			type: 'password'
+		}
 	];
 	
 	// Add id attribute to inputFieldData
@@ -136,13 +172,13 @@ export function RegistrationPage() {
 		const tempErrMsgs = new Array(errorMessages.length);
 		tempErrMsgs.fill(false);
 
-
 		/* eslint-disable-next-line */
 		formData.forEach((inputValue, inputName) => {
 			// Check validations
 			/* eslint-disable-next-line */
 			const validations = inputFieldData[counter].validations;
 
+			// TODO: password is included here, try a fix that will remove the the password inputs from being checked.
 
 			if (inputValue == ''){
 				if (inputFieldData[counter].required) {
@@ -192,7 +228,9 @@ export function RegistrationPage() {
 						<label htmlFor={val.label} className='registration-input-label'>
 							{`${camelCaseToCapitalized(val.label)}${val.required ? '*' : ''}`}
 						</label>
-						<input name={val.label} className='registration-input-field' placeholder={val.placeholder}
+						<input name={val.label} className='registration-input-field' 
+							placeholder={val.placeholder}
+							type={val.type}
 							onChange={
 								(e)=>{
 									const lastValueIndex = e.target.value.length - 1;
@@ -216,6 +254,14 @@ export function RegistrationPage() {
 					</div>
 				);
 			})}
+			<label htmlFor={'password'}>
+				Password
+			</label>
+			<input name='password' type={inputPasswordType}></input>
+			<button type='button' onClick={handleShowPasswordBtn}>{togglePasswordBtn}</button>
+			<label htmlFor={'verifyPassword'}>
+			</label>
+			<input name='verifyPassword' type={inputPasswordType}></input>
 			<ButtonOne label="Register"/>
 			<TextButtonOne label={'Login instead'} onClickFn={handleLoginInsteadBtn}/>
 		</form>
